@@ -589,7 +589,7 @@ inline std::vector<fs::path> getMostRecentFiles(
         );
     }
 
-    // newest → oldest
+    // newest -> oldest
     std::sort(files.begin(), files.end(),
         [](const auto& a, const auto& b) {
             return a.first > b.first;
@@ -628,6 +628,36 @@ inline std::string readFile(const fs::path &path) {
     oss << file.rdbuf();
 
     return oss.str();
+}
+
+typedef enum LogLevel {
+    LOG_DEBUG,
+    LOG_INFO,
+    LOG_WARNING,
+    LOG_ERROR,
+    LOG_FATAL
+} LogLevel;
+
+inline void QTipLog(std::string message, LogLevel level = LOG_INFO) {
+    switch (level) {
+        case LOG_DEBUG:
+            std::cout << "QTip \033[32m[DEBUG]\033[0m " << message << "\n";
+            break;
+        case LOG_INFO:
+            std::cout << "QTip \033[32m[INFO]\033[0m " << message << "\n";
+            break;
+        case LOG_WARNING:
+            std::cout << "QTip \033[33m[WARNING]\033[0m " << message << "\n";
+            break;
+        case LOG_FATAL:
+            std::cout << "QTip \033[31m[FATAL]\033[0m " << message << "\n";
+            break;
+        case LOG_ERROR:
+            std::cout << "QTip \033[31m[ERROR]\033[0m " << message << "\n";
+            break;
+        default:
+            break;
+    }
 }
 
 #endif // HELPERS_H

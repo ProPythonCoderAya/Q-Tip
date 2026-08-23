@@ -1,0 +1,65 @@
+//
+// Created by Ayaan on 2026-08-23.
+//
+
+#include <Q-Tip/Graphics/Renderer.h>
+#include "Helpers.h"
+
+QTIP_CODE_BEGIN
+    Renderer::Renderer(SDL_Window* window) {
+    if (!window) return;
+    _renderer = SDL_CreateRenderer(window, nullptr);
+    if (!_renderer) {
+        QTipLog(fmt("SDL_CreateRenderer failed: %s", SDL_GetError()), LOG_FATAL);
+        exit(1);
+    }
+}
+
+Renderer::~Renderer() {
+    destroy();
+}
+
+void Renderer::destroy() {
+    if (!_renderer) return;
+    SDL_DestroyRenderer(_renderer);
+    _renderer = nullptr;
+}
+
+void Renderer::clear() {
+    SDL_RenderClear(_renderer);
+}
+
+void Renderer::present() {
+    SDL_RenderPresent(_renderer);
+}
+
+void Renderer::setRenderColor(Color color) {
+    SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
+}
+
+void Renderer::renderPoint(float x, float y) {
+    SDL_RenderPoint(_renderer, x, y);
+}
+
+void Renderer::renderLine(float x1, float y1, float x2, float y2) {
+    SDL_RenderLine(_renderer, x1, y1, x2, y2);
+}
+
+void Renderer::renderRect(Rect rect, bool filled) {
+    SDL_FRect sdlRect = {rect.x, rect.y, rect.w, rect.h};
+
+    if (filled)
+        SDL_RenderFillRect(_renderer, &sdlRect);
+    else
+        SDL_RenderRect(_renderer, &sdlRect);
+}
+
+void Renderer::renderText(const Font& font, const char* text, float x, float y, Color color) {
+    ::renderText(font, _renderer, text, color, x, y);
+}
+
+void Renderer::renderTextCentered(const Font& font, const char* text, float x, float y, Color color) {
+    ::renderTextCentered(font, _renderer, text, color, x, y);
+}
+
+QTIP_CODE_END
