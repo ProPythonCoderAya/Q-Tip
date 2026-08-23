@@ -67,3 +67,9 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# macOS things
+**/.DS_Store
+
+# JetBrains
+.idea
