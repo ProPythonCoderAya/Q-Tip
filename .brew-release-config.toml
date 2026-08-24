@@ -5,4 +5,10 @@ create_tag = true
 push = true
 
 [homebrew]
-enabled = false
+enabled = true
+
+formula="Formula/q-tip.rb"
+repository="./homebrew-q-tip"
+
+commit_message = "Update Q-Tip to {version}"
+push = true
