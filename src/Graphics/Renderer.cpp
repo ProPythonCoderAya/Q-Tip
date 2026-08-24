@@ -19,10 +19,36 @@ Renderer::~Renderer() {
     destroy();
 }
 
+Renderer::Renderer(Renderer&& other) noexcept
+    : _renderer(other._renderer) {
+    other._renderer = nullptr;
+}
+
+Renderer& Renderer::operator=(Renderer&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+
+    destroy();
+
+    _renderer = other._renderer;
+    other._renderer = nullptr;
+
+    return *this;
+}
+
 void Renderer::destroy() {
     if (!_renderer) return;
     SDL_DestroyRenderer(_renderer);
     _renderer = nullptr;
+}
+
+Renderer::operator SDL_Renderer*() const {
+    return _renderer;
+}
+
+SDL_Renderer* Renderer::nativeHandle() const {
+    return _renderer;
 }
 
 void Renderer::clear() {

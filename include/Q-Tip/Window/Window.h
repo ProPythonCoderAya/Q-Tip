@@ -10,12 +10,19 @@
 #include <Q-Tip/Config.h>
 #include <Q-Tip/Graphics/Renderer.h>
 
-QTIP_CODE_BEGIN
+#include "Q-Tip/Graphics/Texture.h"
 
-class Window {
+QTIP_CODE_BEGIN
+    class Window {
 public:
     Window(const char* title, float width, float height);
     ~Window();
+
+    Window(const Window&) = delete;
+    Window& operator=(const Window&) = delete;
+
+    Window(Window&& other) noexcept;
+    Window& operator=(Window&& other) noexcept;
 
     void destroy();
 
@@ -41,6 +48,8 @@ private:
     float _width = 0;
     float _height = 0;
     bool _shouldClose = false;
+
+    friend class Texture;
 };
 
 QTIP_CODE_END

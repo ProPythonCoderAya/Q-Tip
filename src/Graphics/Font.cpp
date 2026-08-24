@@ -18,6 +18,24 @@ Font::~Font() {
     destroy();
 }
 
+Font::Font(Font&& other) noexcept
+    : _font(other._font) {
+    other._font = nullptr;
+}
+
+Font& Font::operator=(Font&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+
+    destroy();
+
+    _font = other._font;
+    other._font = nullptr;
+
+    return *this;
+}
+
 void Font::destroy() {
     if (!_font) return;
     TTF_CloseFont(_font);

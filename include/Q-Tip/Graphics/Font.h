@@ -14,6 +14,13 @@ class Font {
 public:
     explicit Font(const char* path, float size);
     ~Font();
+
+    Font(const Font&) = delete;
+    Font& operator=(const Font&) = delete;
+
+    Font(Font&& other) noexcept;
+    Font& operator=(Font&& other) noexcept;
+
     void destroy();
 
     operator TTF_Font*() const;

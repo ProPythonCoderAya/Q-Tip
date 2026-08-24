@@ -4,6 +4,8 @@
 
 #include "../../include/Q-Tip/Window/Window.h"
 
+#include <utility>
+
 #include "Helpers.h"
 
 QTIP_CODE_BEGIN
@@ -24,8 +26,50 @@ Window::~Window() {
     destroy();
 }
 
+Window::Window(Window&& other) noexcept
+    : _window(other._window),
+      _event(other._event),
+      _renderer(std::move(other._renderer)),
+      _width(other._width),
+      _height(other._height),
+      _shouldClose(other._shouldClose) {
+    other._window = nullptr;
+    other._width = 0;
+    other._height = 0;
+    other._shouldClose = true;
+}
+
+Window& Window::operator=(Window&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+
+    destroy();
+
+    _window = other._window;
+    _event = other._event;
+    _renderer = std::move(other._renderer);
+    _width = other._width;
+    _height = other._height;
+    _shouldClose = other._shouldClose;
+
+    other._window = nullptr;
+    other._width = 0;
+    other._height = 0;
+    other._shouldClose = true;
+
+    return *this;
+}
+
 void Window::destroy() {
-    _renderer->destroy();
+    if (_renderer) {
+        _renderer->destroy();
+        _renderer.reset();
+    }
+
+    if (!_window) {
+        return;
+    }
 
     SDL_DestroyWindow(_window);
     _window = nullptr;

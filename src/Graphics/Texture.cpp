@@ -1,0 +1,55 @@
+
+#include <Q-Tip/Graphics/Texture.h>
+
+#include "Helpers.h"
+
+QTIP_CODE_BEGIN
+
+Texture::Texture(const Renderer& renderer, const std::filesystem::path& path) {
+    _texture = IMG_LoadTexture(renderer.nativeHandle(), path.string().c_str());
+
+    if (!_texture) {
+        QTipLog(fmt("IMG_LoadTexture failed: %s", SDL_GetError()), LOG_ERROR);
+    }
+}
+
+Texture::~Texture() {
+    destroy();
+}
+
+Texture::Texture(Texture&& other) noexcept
+    : _texture(other._texture) {
+    other._texture = nullptr;
+}
+
+Texture& Texture::operator=(Texture&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+
+    destroy();
+
+    _texture = other._texture;
+    other._texture = nullptr;
+
+    return *this;
+}
+
+void Texture::destroy() {
+    if (!_texture) {
+        return;
+    }
+
+    SDL_DestroyTexture(_texture);
+    _texture = nullptr;
+}
+
+bool Texture::isValid() const {
+    return _texture != nullptr;
+}
+
+SDL_Texture* Texture::nativeHandle() const {
+    return _texture;
+}
+
+QTIP_CODE_END

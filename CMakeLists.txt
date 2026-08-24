@@ -25,6 +25,8 @@ add_library(QTip STATIC
         include/Q-Tip/Graphics/Rect.h
         src/Graphics/Font.cpp
         include/Q-Tip/Graphics/Font.h
+        include/Q-Tip/Graphics/Texture.h
+        src/Graphics/Texture.cpp
 )
 
 target_include_directories(QTip

@@ -7,12 +7,6 @@ using namespace QTip;
 int main() {
     Window window("Q-Tip Feature Test", 800, 600);
 
-    window.hide();
-    window.show();
-
-    window.setTitle("Q-Tip Feature Test - All Features");
-    window.setSize(900, 650);
-
     Font font("assets/JetBrainsMono-Regular.ttf", 16);
     Font largeFont("assets/JetBrainsMono-Regular.ttf", 28);
 

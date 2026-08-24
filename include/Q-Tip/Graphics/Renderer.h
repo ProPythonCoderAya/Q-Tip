@@ -19,7 +19,16 @@ public:
     explicit Renderer(SDL_Window* window);
     ~Renderer();
 
+    Renderer(const Renderer&) = delete;
+    Renderer& operator=(const Renderer&) = delete;
+
+    Renderer(Renderer&& other) noexcept;
+    Renderer& operator=(Renderer&& other) noexcept;
+
     void destroy();
+
+    operator SDL_Renderer*() const;
+    [[nodiscard]] SDL_Renderer* nativeHandle() const;
 
     void clear();
     void present();
