@@ -1,8 +1,8 @@
 [release]
-auto_version = true
+auto_version = false
 always_commit_message = false
 create_tag = true
-push = false
+push = true
 
 [homebrew]
 enabled = false
