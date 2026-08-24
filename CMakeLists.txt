@@ -13,6 +13,8 @@ find_package(SDL3 REQUIRED)
 find_package(SDL3_ttf REQUIRED)
 find_package(SDL3_image REQUIRED)
 
+include(GNUInstallDirs)
+
 add_library(QTip STATIC
         src/QTip.cpp
         include/Q-Tip/QTip.h
@@ -30,10 +32,11 @@ add_library(QTip STATIC
 )
 
 target_include_directories(QTip
-        PUBLIC
-                ${CMAKE_CURRENT_SOURCE_DIR}/include
-        PRIVATE
-                ${CMAKE_CURRENT_SOURCE_DIR}/src
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 target_link_libraries(QTip
@@ -55,4 +58,24 @@ target_include_directories(QTipExample
 target_link_libraries(QTipExample
     PRIVATE
         QTip
+)
+
+install(
+    TARGETS QTip
+    EXPORT QTipTargets
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(
+    DIRECTORY include/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+install(
+    EXPORT QTipTargets
+    FILE QTipTargets.cmake
+    NAMESPACE QTip::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/QTip
 )

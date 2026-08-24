@@ -39,7 +39,7 @@ int main() {
         window->renderLine(50.0f, 230.0f, width - 50.0f, 230.0f);
         window->renderLine(50.0f, 250.0f, width - 50.0f, height - 80.0f);
 
-        window->renderTexture(texture, Rect::zero, {200.0f, 200.0f, 200.0f, 200.0f});
+        window->renderTexture(texture, Rect::zero, {200.0f, 200.0f, 500.0f, 500.0f});
 
         window->setRenderColor(Color::red);
         for (int i = 0; i < 40; ++i) {
