@@ -109,6 +109,14 @@ void Window::setSize(float width, float height) {
     return _shouldClose;
 }
 
+SDL_Window* Window::nativeHandle() const {
+    return _window;
+}
+
+Renderer& Window::getRenderer() {
+    return _renderer.value();
+}
+
 void Window::pollEvents() {
     while (SDL_PollEvent(&_event)) {
         switch (_event.type) {

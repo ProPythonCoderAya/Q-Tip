@@ -1,1 +1,1 @@
-# homebrew-q-tip
+# Q-Tip

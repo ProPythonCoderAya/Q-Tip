@@ -14,6 +14,8 @@
 
 QTIP_CODE_BEGIN
 
+class Texture;
+
 class Renderer {
 public:
     explicit Renderer(SDL_Window* window);
@@ -41,6 +43,8 @@ public:
 
     void renderText(const Font& font, const char* text, float x, float y, Color color);
     void renderTextCentered(const Font& font, const char* text, float x, float y, Color color);
+
+    void renderTexture(Texture& texture, Rect srcRect, Rect dstRect);
 
 private:
     SDL_Renderer* _renderer = nullptr;

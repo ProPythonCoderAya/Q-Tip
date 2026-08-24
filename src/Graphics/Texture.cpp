@@ -1,5 +1,6 @@
 
 #include <Q-Tip/Graphics/Texture.h>
+#include <Q-Tip/Graphics/Renderer.h>
 
 #include "Helpers.h"
 

@@ -39,6 +39,10 @@ public:
 
     [[nodiscard]] bool shouldClose() const;
 
+    [[nodiscard]] SDL_Window* nativeHandle() const;
+
+    Renderer& getRenderer();
+
     void pollEvents();
 
 private:

@@ -3,10 +3,12 @@
 //
 
 #include <Q-Tip/Graphics/Renderer.h>
+#include <Q-Tip/Graphics/Texture.h>
 #include "Helpers.h"
 
 QTIP_CODE_BEGIN
-    Renderer::Renderer(SDL_Window* window) {
+
+Renderer::Renderer(SDL_Window* window) {
     if (!window) return;
     _renderer = SDL_CreateRenderer(window, nullptr);
     if (!_renderer) {
@@ -86,6 +88,27 @@ void Renderer::renderText(const Font& font, const char* text, float x, float y, 
 
 void Renderer::renderTextCentered(const Font& font, const char* text, float x, float y, Color color) {
     ::renderTextCentered(font, _renderer, text, color, x, y);
+}
+
+void Renderer::renderTexture(Texture& texture, Rect srcRect, Rect dstRect) {
+    SDL_FRect src;
+    SDL_FRect dst;
+    SDL_FRect* srcPtr = nullptr;
+    SDL_FRect* dstPtr = nullptr;
+    if (srcRect != Rect::zero) {
+        src = srcRect;
+        srcPtr = &src;
+    }
+    if (dstRect != Rect::zero) {
+        dst = dstRect;
+        dstPtr = &dst;
+    }
+    SDL_RenderTexture(
+        _renderer,
+        texture.nativeHandle(),
+        srcPtr,
+        dstPtr
+    );
 }
 
 QTIP_CODE_END

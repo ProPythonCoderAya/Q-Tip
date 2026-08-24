@@ -10,6 +10,8 @@ int main() {
     Font font("assets/JetBrainsMono-Regular.ttf", 16);
     Font largeFont("assets/JetBrainsMono-Regular.ttf", 28);
 
+    Texture texture(window.getRenderer(), "assets/calender.svg");
+
     const Uint64 startTime = SDL_GetTicks();
 
     while (!window.shouldClose()) {
@@ -36,6 +38,8 @@ int main() {
         window->setRenderColor(Color::white);
         window->renderLine(50.0f, 230.0f, width - 50.0f, 230.0f);
         window->renderLine(50.0f, 250.0f, width - 50.0f, height - 80.0f);
+
+        window->renderTexture(texture, Rect::zero, {200.0f, 200.0f, 200.0f, 200.0f});
 
         window->setRenderColor(Color::red);
         for (int i = 0; i < 40; ++i) {

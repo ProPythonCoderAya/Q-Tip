@@ -7,12 +7,13 @@
 
 #include <filesystem>
 #include <Q-Tip/Config.h>
-#include <Q-Tip/Graphics/Renderer.h>
 #include <SDL3_image/SDL_image.h>
 
 QTIP_CODE_BEGIN
 
 namespace fs = std::filesystem;
+
+class Renderer;
 
 class Texture {
 public:
