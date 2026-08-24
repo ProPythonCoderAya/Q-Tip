@@ -31,6 +31,8 @@ add_library(QTip STATIC
         src/Graphics/Texture.cpp
 )
 
+add_library(QTip::QTip ALIAS QTip)
+
 target_include_directories(QTip
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -46,6 +48,27 @@ target_link_libraries(QTip
         SDL3_image::SDL3_image
 )
 
+include(CMakePackageConfigHelpers)
+
+configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/QTipConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/QTipConfig.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/QTip
+)
+
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/QTipConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
+install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/QTipConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/QTipConfigVersion.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/QTip
+)
+
 add_executable(QTipExample
     examples/main.cpp
 )
@@ -57,7 +80,7 @@ target_include_directories(QTipExample
 
 target_link_libraries(QTipExample
     PRIVATE
-        QTip
+        QTip::QTip
 )
 
 install(
