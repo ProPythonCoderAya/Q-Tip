@@ -1,5 +1,5 @@
 [release]
-auto_version = false
+auto_version = true
 always_commit_message = false
 create_tag = true
 push = false
