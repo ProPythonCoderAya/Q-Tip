@@ -13,6 +13,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <Q-Tip/Graphics/Color.h>
+
 constexpr char PATH_SEPARATOR = '/';
 const std::string ROOT = "/";
 

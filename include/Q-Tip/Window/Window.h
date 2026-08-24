@@ -14,7 +14,7 @@ QTIP_CODE_BEGIN
 
 class Window {
 public:
-    Window(const char* title, int width, int height);
+    Window(const char* title, float width, float height);
     ~Window();
 
     void destroy();
@@ -25,10 +25,10 @@ public:
     void hide();
 
     void setTitle(const char* title);
-    void setSize(int width, int height);
+    void setSize(float width, float height);
 
-    [[nodiscard]] int width() const;
-    [[nodiscard]] int height() const;
+    [[nodiscard]] float width() const;
+    [[nodiscard]] float height() const;
 
     [[nodiscard]] bool shouldClose() const;
 
@@ -38,8 +38,8 @@ private:
     SDL_Window* _window = nullptr;
     SDL_Event _event{};
     std::optional<Renderer> _renderer;
-    int _width = 0;
-    int _height = 0;
+    float _width = 0;
+    float _height = 0;
     bool _shouldClose = false;
 };
 
