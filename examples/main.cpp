@@ -10,7 +10,7 @@ int main() {
     Font font("assets/JetBrainsMono-Regular.ttf", 16);
     Font largeFont("assets/JetBrainsMono-Regular.ttf", 28);
 
-    Texture texture(window.getRenderer(), "assets/calender.svg");
+    Texture texture(window.getRenderer(), "assets/weirdstockphoto5-1.jpg");
 
     const Uint64 startTime = SDL_GetTicks();
 
