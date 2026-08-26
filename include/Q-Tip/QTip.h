@@ -8,6 +8,8 @@
 #include <Q-Tip/Graphics/Renderer.h>
 #include <Q-Tip/Graphics/Color.h>
 #include <Q-Tip/Graphics/Rect.h>
+#include <Q-Tip/Graphics/Font.h>
+#include <Q-Tip/Graphics/Texture.h>
 
 #include <Q-Tip/Window/Window.h>
 
