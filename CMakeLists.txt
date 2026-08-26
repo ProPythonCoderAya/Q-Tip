@@ -30,6 +30,7 @@ add_library(QTip STATIC
         include/Q-Tip/Graphics/Texture.h
         src/Graphics/Texture.cpp
         include/Q-Tip/Graphics/Primitives/Circle.h
+        include/Q-Tip/Math/Point.h
 )
 
 add_library(QTip::QTip ALIAS QTip)

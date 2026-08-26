@@ -5,18 +5,19 @@
 #ifndef QTIP_RECT_H
 #define QTIP_RECT_H
 #include "Q-Tip/Config.h"
+#include "Q-Tip/Math/Point.h"
 
 QTIP_CODE_BEGIN
-
-struct Rect {
-    float x, y, w, h;
+    struct Rect {
+    Point origin;
+    Point size;
 
     operator SDL_FRect() const {
-        return {x, y, w, h};
+        return {origin.x, origin.y, size.x, size.y};
     }
 
     bool operator==(const Rect& other) const {
-        return x == other.x && y == other.y && w == other.w && h == other.h;
+        return origin.x == other.origin.x && origin.y == other.origin.y && size.x == other.size.x && size.y == other.size.y;
     }
 
     static const Rect zero;
