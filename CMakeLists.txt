@@ -24,11 +24,12 @@ add_library(QTip STATIC
         src/Graphics/Renderer.cpp
         include/Q-Tip/Graphics/Renderer.h
         include/Q-Tip/Graphics/Color.h
-        include/Q-Tip/Graphics/Rect.h
+        include/Q-Tip/Graphics/Primitives/Rect.h
         src/Graphics/Font.cpp
         include/Q-Tip/Graphics/Font.h
         include/Q-Tip/Graphics/Texture.h
         src/Graphics/Texture.cpp
+        include/Q-Tip/Graphics/Primitives/Circle.h
 )
 
 add_library(QTip::QTip ALIAS QTip)
