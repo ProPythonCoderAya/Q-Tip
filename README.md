@@ -169,5 +169,3 @@ The terms governing the use and distribution of Q-Tip can be found in the reposi
 ## Author
 
 Created by **Ayaan** (`@ProPythonCoderAya`).
-
-[GitHub Repository](https://github.com/ProPythonCoderAya/Q-Tip)
