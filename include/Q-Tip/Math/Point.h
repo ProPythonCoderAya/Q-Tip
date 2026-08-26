@@ -10,6 +10,10 @@ QTIP_CODE_BEGIN
 
 struct Point {
     float x, y;
+
+    bool operator==(const Point& other) const {
+        return x == other.x && y == other.y;
+    }
 };
 
 QTIP_CODE_END

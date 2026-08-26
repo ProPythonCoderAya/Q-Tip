@@ -7,8 +7,9 @@
 
 #include <Q-Tip/Graphics/Renderer.h>
 #include <Q-Tip/Graphics/Color.h>
-#include <Q-Tip/Graphics/Primitives/Rect.h>
-#include <Q-Tip/Graphics/Primitives/Circle.h>
+#include <Q-Tip/Graphics/Shapes/Rect.h>
+#include <Q-Tip/Graphics/Shapes/Circle.h>
+#include <Q-Tip/Graphics/Shapes/Triangle.h>
 #include <Q-Tip/Graphics/Font.h>
 #include <Q-Tip/Graphics/Texture.h>
 

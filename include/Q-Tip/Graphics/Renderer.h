@@ -8,7 +8,7 @@
 #include <SDL3/SDL.h>
 #include <Q-Tip/Config.h>
 #include <Q-Tip/Graphics/Color.h>
-#include <Q-Tip/Graphics/Primitives/Rect.h>
+#include <Q-Tip/Graphics/Shapes/Rect.h>
 
 #include "Font.h"
 

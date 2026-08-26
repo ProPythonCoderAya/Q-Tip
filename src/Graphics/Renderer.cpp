@@ -74,7 +74,7 @@ void Renderer::renderLine(float x1, float y1, float x2, float y2) {
 }
 
 void Renderer::renderRect(Rect rect, bool filled) {
-    SDL_FRect sdlRect = {rect.x, rect.y, rect.w, rect.h};
+    SDL_FRect sdlRect = rect;
 
     if (filled)
         SDL_RenderFillRect(_renderer, &sdlRect);
