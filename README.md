@@ -1,6 +1,6 @@
 # Q-Tip
 
->WARNING: I may have used AI in this project. Sorry. I am not that good at coding, but I can do it. I am sincerely sorry.
+>WARNING: I have used AI in this project. Sorry. I am not that good at coding, but I can do it. I am sincerely sorry.
 
 It is a small 2D graphics library written in modern C++ and based on SDL3.
 
@@ -65,7 +65,7 @@ window->clear();
 window->renderPoint(100.0f, 100.0f);
 window->renderLine(100.0f, 100.0f, 300.0f, 200.0f);
 window->renderRect({50.0f, 50.0f, 200.0f, 100.0f});
-Render the text "Hello!" using the font, at a position of 50.0f for the x-coordinate and 200.0f for the y-coordinate, with the colour set to white.
+window->renderText(font, "Hello!", 200.0f, 200.0f, Color::white);
 window->present();
 ```
 
