@@ -11,10 +11,11 @@
 #include <Q-Tip/Graphics/Shapes/Rect.h>
 
 #include "Font.h"
+#include "Shapes/Circle.h"
+#include "Shapes/Triangle.h"
 
 QTIP_CODE_BEGIN
-
-class Texture;
+    class Texture;
 
 class Renderer {
 public:
@@ -40,6 +41,8 @@ public:
     void renderPoint(float x, float y);
     void renderLine(float x1, float y1, float x2, float y2);
     void renderRect(Rect rect, bool filled = true);
+    void renderCircle(Circle circle, bool filled = true);
+    void renderTriangle(Triangle triangle, bool filled = true);
 
     void renderText(const Font& font, const char* text, float x, float y, Color color);
     void renderTextCentered(const Font& font, const char* text, float x, float y, Color color);

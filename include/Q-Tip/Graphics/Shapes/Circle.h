@@ -10,10 +10,10 @@
 QTIP_CODE_BEGIN
     struct Circle {
     Point center;
-    float r;
+    float radius;
 
     bool operator==(const Circle& other) const {
-        return center.x == other.center.x && center.y == other.center.y && r == other.r;
+        return center.x == other.center.x && center.y == other.center.y && radius == other.radius;
     }
 };
 

@@ -43,10 +43,11 @@ target_include_directories(QTip
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/third_party
 )
 
 target_link_libraries(QTip
-    PUBLIC
+    PUBLIC # TODO: fix so SDL headers are not leaked
         SDL3::SDL3
         SDL3_ttf::SDL3_ttf
         SDL3_image::SDL3_image

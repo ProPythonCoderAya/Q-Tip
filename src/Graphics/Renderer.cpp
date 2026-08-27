@@ -82,6 +82,13 @@ void Renderer::renderRect(Rect rect, bool filled) {
         SDL_RenderRect(_renderer, &sdlRect);
 }
 
+void Renderer::renderCircle(Circle circle, bool filled) {
+    DrawCircle(_renderer, circle.center.x, circle.center.y, circle.radius);
+}
+
+void Renderer::renderTriangle(Triangle triangle, bool filled) {
+}
+
 void Renderer::renderText(const Font& font, const char* text, float x, float y, Color color) {
     ::renderText(font, _renderer, text, color, x, y);
 }
