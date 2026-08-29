@@ -117,8 +117,14 @@ Renderer& Window::getRenderer() {
     return _renderer.value();
 }
 
+Input& Window::input() {
+    return _input;
+}
+
 void Window::pollEvents() {
+    _input.beginFrame();
     while (SDL_PollEvent(&_event)) {
+        _input.processEvent(_event);
         switch (_event.type) {
         case SDL_EVENT_QUIT: {
             _shouldClose = true;

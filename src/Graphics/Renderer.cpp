@@ -5,6 +5,25 @@
 #include <Q-Tip/Graphics/Renderer.h>
 #include <Q-Tip/Graphics/Texture.h>
 #include "Helpers.h"
+#include "earcut.hpp"
+
+namespace mapbox {
+namespace util {
+
+    // Registrera Index 0 (X)
+    template <>
+    struct nth<0, QTip::Point> {
+        inline static double get(const QTip::Point& p) { return static_cast<double>(p.x); };
+    };
+
+    // Registrera Index 1 (Y)
+    template <>
+    struct nth<1, QTip::Point> {
+        inline static double get(const QTip::Point& p) { return static_cast<double>(p.y); };
+    };
+
+}
+}
 
 QTIP_CODE_BEGIN
 
@@ -65,12 +84,12 @@ void Renderer::setRenderColor(Color color) {
     SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
 }
 
-void Renderer::renderPoint(float x, float y) {
-    SDL_RenderPoint(_renderer, x, y);
+void Renderer::renderPoint(Point p) {
+    SDL_RenderPoint(_renderer, p.x, p.y);
 }
 
-void Renderer::renderLine(float x1, float y1, float x2, float y2) {
-    SDL_RenderLine(_renderer, x1, y1, x2, y2);
+void Renderer::renderLine(Line line) {
+    SDL_RenderLine(_renderer, line.start.x, line.start.y, line.end.x, line.end.y);
 }
 
 void Renderer::renderRect(Rect rect, bool filled) {
@@ -87,6 +106,44 @@ void Renderer::renderCircle(Circle circle, bool filled) {
 }
 
 void Renderer::renderTriangle(Triangle triangle, bool filled) {
+    SDL_Vertex verts[3];
+    float r, g, b, a;
+    SDL_GetRenderDrawColorFloat(_renderer, &r, &g, &b, &a);
+    verts[0] = {{triangle.a.x, triangle.a.y}, {r, g, b, a}, {0, 0}};
+    verts[1] = {{triangle.b.x, triangle.b.y}, {r, g, b, a}, {0, 0}};
+    verts[2] = {{triangle.c.x, triangle.c.y}, {r, g, b, a}, {0, 0}};
+    SDL_RenderGeometry(_renderer, NULL, verts, 3, NULL, 0);
+}
+
+void Renderer::renderPolygon(Polygon polygon, bool filled)
+{
+    if (polygon.points.size() < 3)
+        return;
+
+    if (!filled) {
+        for (size_t i = 0; i < polygon.points.size(); ++i) {
+            const Point& a = polygon.points[i];
+            const Point& b = polygon.points[(i + 1) % polygon.points.size()];
+
+            renderLine({a, b});
+        }
+
+        return;
+    }
+
+    std::vector<std::vector<Point>> rings = {
+        polygon.points
+    };
+
+    const auto indices = mapbox::earcut<uint32_t>(rings);
+
+    for (size_t i = 0; i < indices.size(); i += 3) {
+        const Point& a = polygon.points[indices[i]];
+        const Point& b = polygon.points[indices[i + 1]];
+        const Point& c = polygon.points[indices[i + 2]];
+
+        renderTriangle({a, b, c});
+    }
 }
 
 void Renderer::renderText(const Font& font, const char* text, float x, float y, Color color) {

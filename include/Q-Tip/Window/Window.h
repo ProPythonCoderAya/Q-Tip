@@ -11,6 +11,7 @@
 #include <Q-Tip/Graphics/Renderer.h>
 
 #include "Q-Tip/Graphics/Texture.h"
+#include "Q-Tip/Window/Input.h"
 
 QTIP_CODE_BEGIN
     class Window {
@@ -43,12 +44,15 @@ public:
 
     Renderer& getRenderer();
 
+    Input& input();
+
     void pollEvents();
 
 private:
     SDL_Window* _window = nullptr;
     SDL_Event _event{};
     std::optional<Renderer> _renderer;
+    Input _input{};
     float _width = 0;
     float _height = 0;
     bool _shouldClose = false;

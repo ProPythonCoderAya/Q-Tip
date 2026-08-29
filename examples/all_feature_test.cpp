@@ -124,15 +124,15 @@ int main() {
         window->renderRect({440.0f, 95.0f, 170.0f, 80.0f}, true);
 
         window->setRenderColor(Color::white);
-        window->renderLine(60.0f, 205.0f, width - 60.0f, 205.0f);
-        window->renderLine(60.0f, 225.0f, width - 60.0f, height - 145.0f);
-        window->renderLine(width - 60.0f, 225.0f, 60.0f, height - 145.0f);
+        window->renderLine({60.0f, 205.0f, width - 60.0f, 205.0f});
+        window->renderLine({60.0f, 225.0f, width - 60.0f, height - 145.0f});
+        window->renderLine({width - 60.0f, 225.0f, 60.0f, height - 145.0f});
 
         window->setRenderColor(Color::red);
-        for (int i = 0; i < 72; ++i) {
+        for (int i = 0; i < static_cast<int>((window.width() - 140.0f) / 9.0f); ++i) {
             const float x = 70.0f + static_cast<float>(i) * 9.0f;
             const float y = 265.0f + SDL_sinf(t * 4.0f + static_cast<float>(i) * 0.28f) * 38.0f;
-            window->renderPoint(x, y);
+            window->renderPoint({x, y});
         }
 
         window->setRenderColor(Color::green);
@@ -140,8 +140,10 @@ int main() {
             const float angle = t * 2.0f + static_cast<float>(i) * 0.35f;
             const float radius = 20.0f + static_cast<float>(i % 8) * 5.0f;
             window->renderPoint(
-                orbitX + SDL_cosf(angle) * radius,
-                orbitY + SDL_sinf(angle) * radius
+                {
+                    orbitX + SDL_cosf(angle) * radius,
+                    orbitY + SDL_sinf(angle) * radius
+                }
             );
         }
 

@@ -21,6 +21,8 @@ add_library(QTip STATIC
         include/Q-Tip/Config.h
         src/Window/Window.cpp
         include/Q-Tip/Window/Window.h
+        src/Window/Input.cpp
+        include/Q-Tip/Window/Input.h
         src/Graphics/Renderer.cpp
         include/Q-Tip/Graphics/Renderer.h
         include/Q-Tip/Graphics/Color.h
@@ -75,7 +77,7 @@ install(
 )
 
 add_executable(QTipExample
-    examples/main.cpp
+    examples/all_feature_test.cpp
 )
 
 target_include_directories(QTipExample
@@ -84,6 +86,20 @@ target_include_directories(QTipExample
 )
 
 target_link_libraries(QTipExample
+    PRIVATE
+        QTip::QTip
+)
+
+add_executable(QTipShapeTest
+    examples/shapetest.cpp
+)
+
+target_include_directories(QTipShapeTest
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(QTipShapeTest
     PRIVATE
         QTip::QTip
 )
