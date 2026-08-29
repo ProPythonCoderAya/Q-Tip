@@ -97,14 +97,16 @@ int main() {
 
     Texture texture(window.getRenderer(), "assets/weirdstockphoto5-1.jpg");
 
-    Uint64 previousTime = SDL_GetTicks();
+    Clock clock;
 
     std::vector<MovingTriangle> triangles;
 
-    std::uniform_real_distribution<float> speed(-200.0f, 200.0f);
+    std::uniform_real_distribution speed(-200.0f, 200.0f);
 
     // Use the initial window size when creating the triangles.
-    for (int i = 0; i < 100; i++) {
+    int triangleCount = 100000;
+    triangles.reserve(triangleCount);
+    for (int i = 0; i < triangleCount; i++) {
         triangles.push_back({
             {
                 randomPoint(window.width(), window.height()),
@@ -121,9 +123,7 @@ int main() {
         window.pollEvents();
 
         // Delta time in seconds.
-        Uint64 currentTime = SDL_GetTicks();
-        float dt = static_cast<float>(currentTime - previousTime) / 1000.0f;
-        previousTime = currentTime;
+        float dt = static_cast<float>(clock.elapsedFromLastCall()) / 1000.0f;
 
         // Avoid huge movement if the program freezes for a moment.
         dt = std::min(dt, 0.05f);

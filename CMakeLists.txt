@@ -35,6 +35,8 @@ add_library(QTip STATIC
         include/Q-Tip/Math/Point.h
         include/Q-Tip/Graphics/Shapes/Triangle.h
         include/Q-Tip/Graphics/Shapes/Polygon.h
+        include/Q-Tip/Clock.h
+        src/Clock.cpp
 )
 
 add_library(QTip::QTip ALIAS QTip)

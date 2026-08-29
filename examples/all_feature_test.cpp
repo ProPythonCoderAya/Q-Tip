@@ -1,6 +1,4 @@
 #include <Q-Tip/QTip.h>
-#include <Q-Tip/Graphics/Font.h>
-#include <SDL3/SDL.h>
 
 #include <cmath>
 #include <string>
@@ -58,7 +56,7 @@ int main() {
     const bool nativeRendererOk = window.getRenderer().nativeHandle() != nullptr;
     const bool textureOk = texture.isValid();
 
-    const Uint64 startTime = SDL_GetTicks();
+    Clock clock;
 
     bool hidWindow = false;
     bool reshapedWindow = false;
@@ -67,7 +65,7 @@ int main() {
     while (!window.shouldClose()) {
         window.pollEvents();
 
-        const Uint64 elapsed = SDL_GetTicks() - startTime;
+        const Uint64 elapsed = clock.now();
         const float t = static_cast<float>(elapsed) / 1000.0f;
 
         if (!hidWindow && t >= 2.0f) {

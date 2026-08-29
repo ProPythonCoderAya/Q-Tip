@@ -10,6 +10,7 @@
 #include <Q-Tip/Graphics/Shapes/Shapes.h>
 #include <Q-Tip/Graphics/Font.h>
 #include <Q-Tip/Graphics/Texture.h>
+#include <Q-Tip/Clock.h>
 
 #include <Q-Tip/Window/Window.h>
 
