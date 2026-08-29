@@ -4,7 +4,8 @@
 
 #include <Q-Tip/Graphics/Renderer.h>
 #include <Q-Tip/Graphics/Texture.h>
-#include "Helpers.h"
+#include <SDL3/SDL.h>
+#include "../include/Helpers.h"
 #include "earcut.hpp"
 
 namespace mapbox {
@@ -65,10 +66,6 @@ void Renderer::destroy() {
 }
 
 Renderer::operator SDL_Renderer*() const {
-    return _renderer;
-}
-
-SDL_Renderer* Renderer::nativeHandle() const {
     return _renderer;
 }
 

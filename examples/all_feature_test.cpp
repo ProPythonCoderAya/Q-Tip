@@ -52,8 +52,6 @@ int main() {
 
     Texture texture(window.getRenderer(), "assets/weirdstockphoto5-1.jpg");
 
-    const bool nativeWindowOk = window.nativeHandle() != nullptr;
-    const bool nativeRendererOk = window.getRenderer().nativeHandle() != nullptr;
     const bool textureOk = texture.isValid();
 
     Clock clock;
@@ -65,7 +63,7 @@ int main() {
     while (!window.shouldClose()) {
         window.pollEvents();
 
-        const Uint64 elapsed = clock.now();
+        const uint64_t elapsed = clock.now();
         const float t = static_cast<float>(elapsed) / 1000.0f;
 
         if (!hidWindow && t >= 2.0f) {
@@ -95,8 +93,8 @@ int main() {
 
         const float pulse = pingPong(t, 2.0f);
         const float slowPulse = pingPong(t, 5.0f);
-        const float orbitX = width * 0.5f + SDL_cosf(t * 1.5f) * 210.0f;
-        const float orbitY = height * 0.5f + SDL_sinf(t * 1.5f) * 135.0f;
+        const float orbitX = width * 0.5f + std::cosf(t * 1.5f) * 210.0f;
+        const float orbitY = height * 0.5f + std::sinf(t * 1.5f) * 135.0f;
 
         const Color background = lerpColor(Color::black, {18, 18, 32, 255}, slowPulse);
 
@@ -129,7 +127,7 @@ int main() {
         window->setRenderColor(Color::red);
         for (int i = 0; i < static_cast<int>((window.width() - 140.0f) / 9.0f); ++i) {
             const float x = 70.0f + static_cast<float>(i) * 9.0f;
-            const float y = 265.0f + SDL_sinf(t * 4.0f + static_cast<float>(i) * 0.28f) * 38.0f;
+            const float y = 265.0f + std::sinf(t * 4.0f + static_cast<float>(i) * 0.28f) * 38.0f;
             window->renderPoint({x, y});
         }
 
@@ -139,8 +137,8 @@ int main() {
             const float radius = 20.0f + static_cast<float>(i % 8) * 5.0f;
             window->renderPoint(
                 {
-                    orbitX + SDL_cosf(angle) * radius,
-                    orbitY + SDL_sinf(angle) * radius
+                    orbitX + std::cosf(angle) * radius,
+                    orbitY + std::sinf(angle) * radius
                 }
             );
         }
@@ -185,10 +183,8 @@ int main() {
             std::to_string(static_cast<int>(width)) +
             ", height()=" +
             std::to_string(static_cast<int>(height)) +
-            ", nativeWindow=" +
-            (nativeWindowOk ? "ok" : "null") +
-            ", nativeRenderer=" +
-            (nativeRendererOk ? "ok" : "null") +
+            ", nativeWindow=ok" +
+            ", nativeRenderer=ok" +
             ", texture=" +
             (textureOk ? "ok" : "failed");
 
@@ -217,7 +213,7 @@ int main() {
             largeFont,
             "Q-Tip Timed Feature Test",
             width / 2.0f,
-            42.0f + SDL_sinf(t * 2.5f) * 5.0f,
+            42.0f + std::sinf(t * 2.5f) * 5.0f,
             Color::white
         );
 

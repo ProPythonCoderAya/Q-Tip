@@ -1,11 +1,12 @@
 #ifndef QTIP_INPUT_H
 #define QTIP_INPUT_H
 
-#include <SDL3/SDL.h>
 #include <Q-Tip/Config.h>
 
 #include <array>
 #include "Keys.h"
+
+union SDL_Event;
 
 QTIP_CODE_BEGIN
 

@@ -7,7 +7,7 @@
 #include <iostream>
 #include <SDL3_ttf/SDL_ttf.h>
 
-#include "Helpers.h"
+#include "include/Helpers.h"
 
 QTipRuntime::QTipRuntime() {
     if (!SDL_Init(SDL_INIT_VIDEO)) {

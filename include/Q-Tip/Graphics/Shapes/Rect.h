@@ -7,14 +7,15 @@
 #include "Q-Tip/Config.h"
 #include "Q-Tip/Math/Point.h"
 
+struct SDL_FRect;
+
 QTIP_CODE_BEGIN
-    struct Rect {
+
+struct Rect {
     Point origin;
     Point size;
 
-    operator SDL_FRect() const {
-        return {origin.x, origin.y, size.x, size.y};
-    }
+    operator SDL_FRect() const;
 
     bool operator==(const Rect& other) const {
         return origin.x == other.origin.x && origin.y == other.origin.y && size.x == other.size.x && size.y == other.size.y;

@@ -7,7 +7,8 @@
 
 #include <filesystem>
 #include <Q-Tip/Config.h>
-#include <SDL3_image/SDL_image.h>
+
+struct SDL_Texture;
 
 QTIP_CODE_BEGIN
 

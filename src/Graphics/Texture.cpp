@@ -1,13 +1,14 @@
 
 #include <Q-Tip/Graphics/Texture.h>
 #include <Q-Tip/Graphics/Renderer.h>
+#include <SDL3_image/SDL_image.h>
 
-#include "Helpers.h"
+#include "../include/Helpers.h"
 
 QTIP_CODE_BEGIN
 
 Texture::Texture(const Renderer& renderer, const std::filesystem::path& path) {
-    _texture = IMG_LoadTexture(renderer.nativeHandle(), path.string().c_str());
+    _texture = IMG_LoadTexture(renderer, path.string().c_str());
 
     if (!_texture) {
         QTipLog(fmt("IMG_LoadTexture failed: %s", SDL_GetError()), LOG_ERROR);

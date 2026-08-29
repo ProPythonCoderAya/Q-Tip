@@ -4,12 +4,18 @@
 
 #ifndef QTIP_COLOR_H
 #define QTIP_COLOR_H
+#include <cstdint>
+
 #include "Q-Tip/Config.h"
+
+struct SDL_Color;
 
 QTIP_CODE_BEGIN
 
 struct Color {
     uint8_t r, g, b, a;
+
+    operator ::SDL_Color() const;
 
     static const Color clear;
 
@@ -18,10 +24,6 @@ struct Color {
     static const Color red;
     static const Color green;
     static const Color blue;
-
-    operator SDL_Color() const {
-        return {r, g, b, a};
-    };
 };
 
 inline const Color Color::clear = {0, 0, 0, 0};
@@ -33,6 +35,5 @@ inline const Color Color::green = {0, 255, 0, 255};
 inline const Color Color::blue  = {0, 0, 255, 255};
 
 QTIP_CODE_END
-
 
 #endif //QTIP_COLOR_H

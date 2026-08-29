@@ -1,4 +1,5 @@
 #include <Q-Tip/Window/Input.h>
+#include <SDL3/SDL.h>
 
 QTIP_CODE_BEGIN
 

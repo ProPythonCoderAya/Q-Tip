@@ -6,15 +6,17 @@
 #define QTIP_WINDOW_H
 
 #include <optional>
-#include <SDL3/SDL.h>
 #include <Q-Tip/Config.h>
 #include <Q-Tip/Graphics/Renderer.h>
 
-#include "Q-Tip/Graphics/Texture.h"
 #include "Q-Tip/Window/Input.h"
 
+struct SDL_Window;
+union SDL_Event;
+
 QTIP_CODE_BEGIN
-    class Window {
+
+class Window {
 public:
     Window(const char* title, float width, float height);
     ~Window();
@@ -40,8 +42,6 @@ public:
 
     [[nodiscard]] bool shouldClose() const;
 
-    [[nodiscard]] SDL_Window* nativeHandle() const;
-
     Renderer& getRenderer();
 
     Input& input();
@@ -50,7 +50,7 @@ public:
 
 private:
     SDL_Window* _window = nullptr;
-    SDL_Event _event{};
+    SDL_Event* _event = nullptr;
     std::optional<Renderer> _renderer;
     Input _input{};
     float _width = 0;

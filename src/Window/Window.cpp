@@ -2,11 +2,13 @@
 // Created by Ayaan on 2026-08-23.
 //
 
-#include "../../include/Q-Tip/Window/Window.h"
+#include "Q-Tip/Window/Window.h"
 
 #include <utility>
 
-#include "Helpers.h"
+#include "../include/Helpers.h"
+
+#include <SDL3/SDL.h>
 
 QTIP_CODE_BEGIN
 
@@ -20,6 +22,8 @@ Window::Window(const char* title, float width, float height) {
     _height = height;
 
     _renderer.emplace(_window);
+
+    _event = new SDL_Event;
 }
 
 Window::~Window() {
@@ -67,6 +71,9 @@ void Window::destroy() {
         _renderer.reset();
     }
 
+    delete _event;
+    _event = nullptr;
+
     if (!_window) {
         return;
     }
@@ -109,10 +116,6 @@ void Window::setSize(float width, float height) {
     return _shouldClose;
 }
 
-SDL_Window* Window::nativeHandle() const {
-    return _window;
-}
-
 Renderer& Window::getRenderer() {
     return _renderer.value();
 }
@@ -123,16 +126,17 @@ Input& Window::input() {
 
 void Window::pollEvents() {
     _input.beginFrame();
-    while (SDL_PollEvent(&_event)) {
-        _input.processEvent(_event);
-        switch (_event.type) {
+    while (SDL_PollEvent(_event)) {
+        auto event = *_event;
+        _input.processEvent(event);
+        switch (event.type) {
         case SDL_EVENT_QUIT: {
             _shouldClose = true;
             break;
         }
         case SDL_EVENT_WINDOW_RESIZED: {
-            _width = static_cast<float>(_event.window.data1);
-            _height = static_cast<float>(_event.window.data2);
+            _width = static_cast<float>(event.window.data1);
+            _height = static_cast<float>(event.window.data2);
             break;
         }
         default:

@@ -5,8 +5,9 @@
 #ifndef QTIP_FONT_H
 #define QTIP_FONT_H
 
-#include <SDL3_ttf/SDL_ttf.h>
 #include <Q-Tip/Config.h>
+
+struct TTF_Font;
 
 QTIP_CODE_BEGIN
 

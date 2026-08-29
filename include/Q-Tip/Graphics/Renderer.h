@@ -5,7 +5,6 @@
 #ifndef QTIP_RENDERER_H
 #define QTIP_RENDERER_H
 
-#include <SDL3/SDL.h>
 #include <Q-Tip/Config.h>
 #include <Q-Tip/Graphics/Color.h>
 
@@ -16,8 +15,12 @@
 #include "Shapes/Polygon.h"
 #include "Shapes/Line.h"
 
+struct SDL_Window;
+struct SDL_Renderer;
+
 QTIP_CODE_BEGIN
-    class Texture;
+
+class Texture;
 
 class Renderer {
 public:
@@ -33,7 +36,6 @@ public:
     void destroy();
 
     operator SDL_Renderer*() const;
-    [[nodiscard]] SDL_Renderer* nativeHandle() const;
 
     void clear();
     void present();

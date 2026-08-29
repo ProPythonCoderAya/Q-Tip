@@ -37,6 +37,8 @@ add_library(QTip STATIC
         include/Q-Tip/Graphics/Shapes/Polygon.h
         include/Q-Tip/Clock.h
         src/Clock.cpp
+        src/Graphics/Color.cpp
+        src/Graphics/Shapes/Rect.cpp
 )
 
 add_library(QTip::QTip ALIAS QTip)
@@ -51,7 +53,7 @@ target_include_directories(QTip
 )
 
 target_link_libraries(QTip
-    PUBLIC # TODO: fix so SDL headers are not leaked
+    PRIVATE # TODO: fix so SDL headers are not leaked
         SDL3::SDL3
         SDL3_ttf::SDL3_ttf
         SDL3_image::SDL3_image
