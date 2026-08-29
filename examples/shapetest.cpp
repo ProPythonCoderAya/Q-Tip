@@ -1,8 +1,5 @@
 #include <Q-Tip/QTip.h>
-#include <SDL3/SDL.h>
 
-#include <cmath>
-#include <string>
 #include <random>
 #include <vector>
 #include <algorithm>
