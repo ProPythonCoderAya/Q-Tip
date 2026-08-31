@@ -6,6 +6,9 @@
 #define QTIP_FONT_H
 
 #include <Q-Tip/Config.h>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 struct TTF_Font;
 
@@ -13,20 +16,31 @@ QTIP_CODE_BEGIN
 
 class Font {
 public:
-    explicit Font(const char* path, float size);
+    explicit Font(fs::path path, float size);
     ~Font();
 
-    Font(const Font&) = delete;
-    Font& operator=(const Font&) = delete;
+    Font(const Font& other);
+    Font& operator=(const Font& other);
 
     Font(Font&& other) noexcept;
     Font& operator=(Font&& other) noexcept;
 
     void destroy();
 
+    [[nodiscard]] int getFontHeight() const;
+
     operator TTF_Font*() const;
 private:
+    void copy(const Font& other);
+
     TTF_Font* _font = nullptr;
+
+    typedef struct FontMeta {
+        fs::path path;
+        float size;
+    } FontMeta;
+
+    FontMeta _meta;
 };
 
 QTIP_CODE_END

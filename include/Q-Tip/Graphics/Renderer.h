@@ -45,6 +45,7 @@ public:
     void renderPoint(Point point);
     void renderLine(Line line);
     void renderRect(Rect rect, bool filled = true);
+    void renderRoundedRect(Rect rect, int radius);
     void renderCircle(Circle circle, bool filled = true);
     void renderTriangle(Triangle triangle, bool filled = true);
     void renderPolygon(Polygon polygon, bool filled = true);

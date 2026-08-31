@@ -4,6 +4,7 @@
 #include <Q-Tip/Config.h>
 
 #include <array>
+#include <string>
 #include "Keys.h"
 
 union SDL_Event;
@@ -54,6 +55,9 @@ public:
     [[nodiscard]]
     float mouseDeltaY() const;
 
+    [[nodiscard]]
+    std::string textInput();
+
 private:
     void beginFrame();
     void processEvent(const SDL_Event& event);
@@ -74,6 +78,8 @@ private:
 
     float _mouseDeltaX = 0.0f;
     float _mouseDeltaY = 0.0f;
+
+    std::string _text;
 
     friend class Window;
 };

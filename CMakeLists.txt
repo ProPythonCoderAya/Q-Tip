@@ -39,6 +39,8 @@ add_library(QTip STATIC
         src/Clock.cpp
         src/Graphics/Color.cpp
         src/Graphics/Shapes/Rect.cpp
+        include/Q-Tip/UI/Textbox.cpp
+        include/Q-Tip/UI/Textbox.h
 )
 
 add_library(QTip::QTip ALIAS QTip)

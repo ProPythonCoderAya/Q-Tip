@@ -98,6 +98,13 @@ void Renderer::renderRect(Rect rect, bool filled) {
         SDL_RenderRect(_renderer, &sdlRect);
 }
 
+void Renderer::renderRoundedRect(Rect rect, int radius) {
+    SDL_FRect sdlRect = rect;
+    uint8_t r, g, b, a;
+    SDL_GetRenderDrawColor(_renderer, &r, &g, &b, &a);
+    DrawRoundedRect(_renderer, r, g, b, &sdlRect, radius);
+}
+
 void Renderer::renderCircle(Circle circle, bool filled) {
     DrawCircle(_renderer, circle.center.x, circle.center.y, circle.radius);
 }
@@ -109,7 +116,7 @@ void Renderer::renderTriangle(Triangle triangle, bool filled) {
     verts[0] = {{triangle.a.x, triangle.a.y}, {r, g, b, a}, {0, 0}};
     verts[1] = {{triangle.b.x, triangle.b.y}, {r, g, b, a}, {0, 0}};
     verts[2] = {{triangle.c.x, triangle.c.y}, {r, g, b, a}, {0, 0}};
-    SDL_RenderGeometry(_renderer, NULL, verts, 3, NULL, 0);
+    SDL_RenderGeometry(_renderer, nullptr, verts, 3, nullptr, 0);
 }
 
 void Renderer::renderPolygon(Polygon polygon, bool filled)

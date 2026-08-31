@@ -1,4 +1,5 @@
 #include <Q-Tip/Window/Input.h>
+#include <utility>
 #include <SDL3/SDL.h>
 
 QTIP_CODE_BEGIN
@@ -104,6 +105,10 @@ float Input::mouseDeltaX() const
 float Input::mouseDeltaY() const
 {
     return _mouseDeltaY;
+}
+
+std::string Input::textInput() {
+    return std::exchange(_text, {});
 }
 
 void Input::beginFrame()

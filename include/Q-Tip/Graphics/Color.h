@@ -13,7 +13,7 @@ struct SDL_Color;
 QTIP_CODE_BEGIN
 
 struct Color {
-    uint8_t r, g, b, a;
+    uint8_t r, g, b, a = 255;
 
     operator ::SDL_Color() const;
 
