@@ -6,10 +6,11 @@
 #define QTIP_WINDOW_H
 
 #include <optional>
-#include <Q-Tip/Config.h>
+#include <Config.h>
 #include <Q-Tip/Graphics/Renderer.h>
 
 #include "Q-Tip/Window/Input.h"
+#include "Q-Tip/UI/UIObject.h"
 
 struct SDL_Window;
 union SDL_Event;
@@ -42,6 +43,8 @@ public:
 
     [[nodiscard]] bool shouldClose() const;
 
+    void addUIObject(UIObject* uiObject);
+
     Renderer& getRenderer();
 
     Input& input();
@@ -52,6 +55,7 @@ private:
     SDL_Window* _window = nullptr;
     SDL_Event* _event = nullptr;
     std::optional<Renderer> _renderer;
+    std::vector<UIObject*> _uiObjects;
     Input _input{};
     float _width = 0;
     float _height = 0;

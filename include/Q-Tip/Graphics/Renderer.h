@@ -5,7 +5,7 @@
 #ifndef QTIP_RENDERER_H
 #define QTIP_RENDERER_H
 
-#include <Q-Tip/Config.h>
+#include <Config.h>
 #include <Q-Tip/Graphics/Color.h>
 
 #include "Font.h"

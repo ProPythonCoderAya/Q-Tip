@@ -5,7 +5,7 @@
 #ifndef QTIP_TEXTBOX_H
 #define QTIP_TEXTBOX_H
 #include <string>
-#include <Q-Tip/Config.h>
+#include <Config.h>
 
 #include "Q-Tip/Graphics/Font.h"
 #include "Q-Tip/Graphics/Shapes/Rect.h"
@@ -13,7 +13,7 @@
 
 QTIP_CODE_BEGIN
 
-class Textbox {
+class Textbox : public UIObject {
 public:
     Textbox(float x, float y, float width, float height, const std::optional<Font>& font);
     Textbox(Rect rect, const std::optional<Font>& font);
@@ -22,14 +22,15 @@ public:
 
     void render(Window window);
 
-    void handleEvent(const SDL_Event& event);
+    void handleEvent(const SDL_Event& event) override;
 
     void setActive(bool active);
     [[nodiscard]] bool getActive() const;
 private:
     Rect _rect{};
     Font _font;
-    float _fontHeight;
+    float _fontHeight = 0;
+    size_t _caretPosition = 0;
     bool _active = false;
     void setMinHeight();
     void deleteCharacter();

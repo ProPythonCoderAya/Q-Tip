@@ -4,7 +4,7 @@
 
 #ifndef QTIP_CIRCLE_H
 #define QTIP_CIRCLE_H
-#include "Q-Tip/Config.h"
+#include "Config.h"
 #include "Q-Tip/Math/Point.h"
 
 QTIP_CODE_BEGIN

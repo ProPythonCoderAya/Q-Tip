@@ -13,6 +13,9 @@ Font::Font(fs::path path, float size) {
     if (!_font) {
         QTipLog(fmt("TTF_OpenFont failed: %s", SDL_GetError()), LOG_ERROR);
     }
+
+    _meta.path = path;
+    _meta.size = size;
 }
 
 Font::~Font() {
@@ -50,6 +53,7 @@ void Font::copy(const Font& other) {
 Font::Font(Font&& other) noexcept
     : _font(other._font) {
     other._font = nullptr;
+    _meta = other._meta;
 }
 
 Font& Font::operator=(Font&& other) noexcept {
@@ -61,6 +65,7 @@ Font& Font::operator=(Font&& other) noexcept {
 
     _font = other._font;
     other._font = nullptr;
+    _meta = other._meta;
 
     return *this;
 }
@@ -71,8 +76,22 @@ void Font::destroy() {
     _font = nullptr;
 }
 
-int Font::getFontHeight() const {
-    return TTF_GetFontHeight(_font);
+float Font::getFontHeight() const {
+    return static_cast<float>(TTF_GetFontHeight(_font));
+}
+
+Point Font::getTextSize(const std::string& text) const {
+    int width, height;
+    TTF_GetStringSize(_font, text.c_str(), 0, &width, &height);
+    return {static_cast<float>(width), static_cast<float>(height)};
+}
+
+float Font::getTextWidth(const std::string& text) const {
+    return getTextSize(text).x;
+}
+
+float Font::getTextHeight(const std::string& text) const {
+    return getTextSize(text).y;
 }
 
 Font::operator TTF_Font*() const {

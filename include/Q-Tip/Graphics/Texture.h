@@ -6,7 +6,7 @@
 #define QTIP_TEXTURE_H
 
 #include <filesystem>
-#include <Q-Tip/Config.h>
+#include <Config.h>
 
 struct SDL_Texture;
 

@@ -116,6 +116,11 @@ void Window::setSize(float width, float height) {
     return _shouldClose;
 }
 
+void Window::addUIObject(UIObject* uiObject) {
+    if (!uiObject) return;
+    _uiObjects.push_back(uiObject);
+}
+
 Renderer& Window::getRenderer() {
     return _renderer.value();
 }
@@ -129,6 +134,7 @@ void Window::pollEvents() {
     while (SDL_PollEvent(_event)) {
         auto event = *_event;
         _input.processEvent(event);
+        for (auto* uiObject : _uiObjects) uiObject->handleEvent(event);
         switch (event.type) {
         case SDL_EVENT_QUIT: {
             _shouldClose = true;

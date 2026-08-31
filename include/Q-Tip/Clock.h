@@ -1,6 +1,6 @@
 #ifndef QTIP_CLOCK_H
 #define QTIP_CLOCK_H
-#include <Q-Tip/Config.h>
+#include <Config.h>
 #include <cstdint>
 
 QTIP_CODE_BEGIN

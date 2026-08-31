@@ -5,8 +5,10 @@
 #ifndef QTIP_FONT_H
 #define QTIP_FONT_H
 
-#include <Q-Tip/Config.h>
+#include <Config.h>
 #include <filesystem>
+
+#include "Q-Tip/Math/Point.h"
 
 namespace fs = std::filesystem;
 
@@ -27,7 +29,11 @@ public:
 
     void destroy();
 
-    [[nodiscard]] int getFontHeight() const;
+    [[nodiscard]] float getFontHeight() const;
+
+    [[nodiscard]] Point getTextSize(const std::string& text) const;
+    [[nodiscard]] float getTextWidth(const std::string& text) const;
+    [[nodiscard]] float getTextHeight(const std::string& text) const;
 
     operator TTF_Font*() const;
 private:

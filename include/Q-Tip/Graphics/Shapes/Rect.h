@@ -4,7 +4,7 @@
 
 #ifndef QTIP_RECT_H
 #define QTIP_RECT_H
-#include "Q-Tip/Config.h"
+#include "Config.h"
 #include "Q-Tip/Math/Point.h"
 
 struct SDL_FRect;
@@ -19,6 +19,10 @@ struct Rect {
 
     bool operator==(const Rect& other) const {
         return origin.x == other.origin.x && origin.y == other.origin.y && size.x == other.size.x && size.y == other.size.y;
+    }
+
+    [[nodiscard]] bool isPointInside(const Point& point) const {
+        return origin.x <= point.x && point.x <= origin.x + size.x && origin.y <= point.y && point.y <= origin.y + size.y;
     }
 
     static const Rect zero;

@@ -1,7 +1,7 @@
 #ifndef QTIP_INPUT_H
 #define QTIP_INPUT_H
 
-#include <Q-Tip/Config.h>
+#include <Config.h>
 
 #include <array>
 #include <string>

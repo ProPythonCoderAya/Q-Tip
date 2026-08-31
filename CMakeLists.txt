@@ -18,7 +18,7 @@ include(GNUInstallDirs)
 add_library(QTip STATIC
         src/QTip.cpp
         include/Q-Tip/QTip.h
-        include/Q-Tip/Config.h
+        src/Config.h
         src/Window/Window.cpp
         include/Q-Tip/Window/Window.h
         src/Window/Input.cpp
@@ -39,8 +39,9 @@ add_library(QTip STATIC
         src/Clock.cpp
         src/Graphics/Color.cpp
         src/Graphics/Shapes/Rect.cpp
-        include/Q-Tip/UI/Textbox.cpp
+        src/UI/Textbox.cpp
         include/Q-Tip/UI/Textbox.h
+        include/Q-Tip/UI/UIObject.h
 )
 
 add_library(QTip::QTip ALIAS QTip)
