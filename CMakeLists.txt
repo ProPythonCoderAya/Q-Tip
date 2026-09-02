@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 4.0)
 
 project(QTip
-    VERSION 0.1.2
+    VERSION 0.1.3
     LANGUAGES CXX
 )
 
@@ -107,6 +107,20 @@ target_include_directories(QTipShapeTest
 )
 
 target_link_libraries(QTipShapeTest
+    PRIVATE
+        QTip::QTip
+)
+
+add_executable(QTipTextboxTest
+    examples/textbox.cpp
+)
+
+target_include_directories(QTipTextboxTest
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(QTipTextboxTest
     PRIVATE
         QTip::QTip
 )

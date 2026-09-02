@@ -24,6 +24,8 @@ Window::Window(const char* title, float width, float height) {
     _renderer.emplace(_window);
 
     _event = new SDL_Event;
+
+    SDL_StartTextInput(_window);
 }
 
 Window::~Window() {
@@ -77,6 +79,8 @@ void Window::destroy() {
     if (!_window) {
         return;
     }
+
+    SDL_StopTextInput(_window);
 
     SDL_DestroyWindow(_window);
     _window = nullptr;
