@@ -41,11 +41,21 @@ Textbox::Textbox(const Rect rect, const std::optional<Font>& font) : _font(defau
 void Textbox::render(Window& window) {
     Renderer& renderer = window.getRenderer();
 
-    renderer.setRenderColor({40, 40, 40});
-    renderer.renderRoundedRect(_rect, 10);
+    SDL_Texture* target = SDL_CreateTexture(
+        renderer,
+        SDL_PIXELFORMAT_RGBA8888,
+        SDL_TEXTUREACCESS_TARGET,
+        _rect.size.x,
+        _rect.size.y
+    );
 
-    float rx = _rect.origin.x;
-    float ry = _rect.origin.y;
+    SDL_SetRenderTarget(renderer, target);
+
+    renderer.setRenderColor({40, 40, 40});
+    renderer.renderRoundedRect({0, 0, _rect.size}, 10);
+
+    float rx = 0;
+    float ry = 0;
     float rh = _rect.size.y;
     renderer.renderText(_font, _text.c_str(), rx + 5, ry + (rh - _fontHeight) / 2, Color::white);
     const size_t bytePosition = getBytePosition();
@@ -63,6 +73,14 @@ void Textbox::render(Window& window) {
             renderer.renderRect(rect);
         }
     }
+
+    SDL_SetRenderTarget(renderer, nullptr);
+
+    SDL_FRect dstRect = _rect;
+
+    SDL_RenderTexture(renderer, target, nullptr, &dstRect);
+
+    SDL_DestroyTexture(target);
 }
 
 void Textbox::handleEvent(const SDL_Event& event) {
