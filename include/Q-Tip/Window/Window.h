@@ -40,6 +40,7 @@ public:
 
     [[nodiscard]] float width() const;
     [[nodiscard]] float height() const;
+    [[nodiscard]] Point size() const;
 
     [[nodiscard]] bool shouldClose() const;
 

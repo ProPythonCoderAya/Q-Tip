@@ -116,6 +116,10 @@ void Window::setSize(float width, float height) {
     return _height;
 }
 
+Point Window::size() const {
+    return { _width, _height };
+}
+
 [[nodiscard]] bool Window::shouldClose() const {
     return _shouldClose;
 }

@@ -42,6 +42,7 @@ add_library(QTip STATIC
         src/UI/Textbox.cpp
         include/Q-Tip/UI/Textbox.h
         include/Q-Tip/UI/UIObject.h
+        "src/PrivateTypes/Lazy.h"
 )
 
 add_library(QTip::QTip ALIAS QTip)

@@ -1,7 +1,16 @@
 #include <Q-Tip/QTip.h>
 #include <Q-Tip/UI/Textbox.h>
+#include <fstream>
+#include <sstream>
 
 using namespace QTip;
+
+std::string readFile(const fs::path &path) {
+    std::ifstream file(path);
+    std::ostringstream oss;
+    oss << file.rdbuf();
+    return oss.str();
+}
 
 int main() {
     Window window("Q-Tip Textbox Test", 800, 600);
@@ -9,19 +18,27 @@ int main() {
     Font font("assets/JetBrainsMono-Regular.ttf", 20);
 
     Textbox textbox(
-        100.0f,
-        250.0f,
-        600.0f,
-        50.0f,
+        10.0f,
+        10.0f,
+        780.0f,
+        580.0f,
         font
     );
 
-    textbox.type("Type something...");
+    textbox.type("lolo sno");
+
+    Point lastWindowSize{};
 
     window.addUIObject(&textbox);
 
     while (!window.shouldClose()) {
         window.pollEvents();
+
+        Point windowSize = window.size();
+        if (lastWindowSize != windowSize) {
+            lastWindowSize = windowSize;
+            textbox.resize(windowSize.x - 20, windowSize.y - 20);
+        }
 
         window->setRenderColor({20, 20, 20, 255});
         window->clear();
