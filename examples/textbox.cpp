@@ -25,7 +25,7 @@ int main() {
         font
     );
 
-    textbox.type("lolo sno");
+    textbox.type("lolo banan");
 
     Point lastWindowSize{};
 
