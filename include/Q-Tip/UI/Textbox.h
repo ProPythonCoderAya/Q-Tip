@@ -8,9 +8,8 @@
 #include <algorithm>
 #include <optional>
 #include <string>
-#include <vector>
 
-#include <../Config.h>
+#include <Q-Tip/Config.h>
 
 #include "PrivateTypes/Lazy.h"
 #include "Q-Tip/Graphics/Font.h"

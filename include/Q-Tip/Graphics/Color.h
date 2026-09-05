@@ -6,7 +6,7 @@
 #define QTIP_COLOR_H
 #include <cstdint>
 
-#include "../Config.h"
+#include "Q-Tip/Config.h"
 
 struct SDL_Color;
 

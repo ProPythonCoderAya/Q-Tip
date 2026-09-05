@@ -6,7 +6,7 @@
 #define QTIP_WINDOW_H
 
 #include <optional>
-#include <../Config.h>
+#include <Q-Tip/Config.h>
 #include <Q-Tip/Graphics/Renderer.h>
 
 #include "Q-Tip/Window/Input.h"

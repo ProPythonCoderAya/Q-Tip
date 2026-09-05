@@ -4,7 +4,7 @@
 
 #ifndef QTIP_POINT_H
 #define QTIP_POINT_H
-#include "../Config.h"
+#include "Q-Tip/Config.h"
 
 QTIP_CODE_BEGIN
 
