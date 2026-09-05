@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-#include <Config.h>
+#include <../Config.h>
 
 #include "PrivateTypes/Lazy.h"
 #include "Q-Tip/Graphics/Font.h"

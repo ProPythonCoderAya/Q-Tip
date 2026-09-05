@@ -5,7 +5,7 @@
 #ifndef QTIP_UIOBJECT_H
 #define QTIP_UIOBJECT_H
 
-#include <Config.h>
+#include <../Config.h>
 
 union SDL_Event;
 

@@ -5,7 +5,7 @@
 #ifndef QTIP_FONT_H
 #define QTIP_FONT_H
 
-#include <Config.h>
+#include <../Config.h>
 #include <filesystem>
 
 #include "Q-Tip/Math/Point.h"

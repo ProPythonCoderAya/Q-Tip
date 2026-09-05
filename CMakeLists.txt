@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 4.0)
 
 project(QTip
-    VERSION 0.1.4
+    VERSION 0.1.5
     LANGUAGES CXX
 )
 
@@ -18,7 +18,7 @@ include(GNUInstallDirs)
 add_library(QTip STATIC
         src/QTip.cpp
         include/Q-Tip/QTip.h
-        src/Config.h
+        include/Q-Tip/Config.h
         src/Window/Window.cpp
         include/Q-Tip/Window/Window.h
         src/Window/Input.cpp
@@ -42,7 +42,7 @@ add_library(QTip STATIC
         src/UI/Textbox.cpp
         include/Q-Tip/UI/Textbox.h
         include/Q-Tip/UI/UIObject.h
-        "src/PrivateTypes/Lazy.h"
+        src/PrivateTypes/Lazy.h
 )
 
 add_library(QTip::QTip ALIAS QTip)
@@ -57,7 +57,7 @@ target_include_directories(QTip
 )
 
 target_link_libraries(QTip
-    PRIVATE # TODO: fix so SDL headers are not leaked
+    PRIVATE
         SDL3::SDL3
         SDL3_ttf::SDL3_ttf
         SDL3_image::SDL3_image
