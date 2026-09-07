@@ -57,6 +57,8 @@ public:
 
 private:
     SDL_Renderer* _renderer = nullptr;
+
+    friend class RenderTarget;
 };
 
 QTIP_CODE_END

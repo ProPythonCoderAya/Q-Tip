@@ -32,7 +32,7 @@ public:
     [[nodiscard]] bool isValid() const;
     [[nodiscard]] SDL_Texture* nativeHandle() const;
 
-private:
+protected:
     SDL_Texture* _texture = nullptr;
 };
 

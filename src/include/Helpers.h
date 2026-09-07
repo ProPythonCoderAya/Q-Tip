@@ -13,8 +13,6 @@
 #include <iostream>
 #include <sstream>
 
-#include <Q-Tip/Graphics/Color.h>
-
 constexpr char PATH_SEPARATOR = '/';
 const std::string ROOT = "/";
 
@@ -640,7 +638,7 @@ typedef enum LogLevel {
     LOG_FATAL
 } LogLevel;
 
-inline void QTipLog(std::string message, LogLevel level = LOG_INFO) {
+inline void QTipLog(std::string_view message, LogLevel level = LOG_INFO) {
     switch (level) {
         case LOG_DEBUG:
             std::cout << "QTip \033[32m[DEBUG]\033[0m " << message << "\n";
