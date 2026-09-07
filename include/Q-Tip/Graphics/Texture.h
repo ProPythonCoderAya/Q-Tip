@@ -33,6 +33,8 @@ public:
     [[nodiscard]] SDL_Texture* nativeHandle() const;
 
 protected:
+    Texture() = default;
+
     SDL_Texture* _texture = nullptr;
 };
 

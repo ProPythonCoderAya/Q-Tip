@@ -5,11 +5,15 @@
 #include "Q-Tip/UI/Textbox.h"
 
 #include <algorithm>
+
+#include "Q-Tip/Graphics/RenderTarget.h"
+
 #include <SDL3/SDL.h>
 
-QTIP_CODE_BEGIN
+#include "Q-Tip/UI/UIObject.h"
 
-std::string defaultFontPath() {
+QTIP_CODE_BEGIN
+    std::string defaultFontPath() {
 #ifdef _WIN32
     return "C:/Windows/Fonts/Arial.ttf";
 #elif defined(__linux__)
@@ -72,18 +76,9 @@ Textbox::Textbox(
 void Textbox::render(Window& window) {
     Renderer& renderer = window.getRenderer();
 
-    SDL_Texture* target = SDL_CreateTexture(
-        renderer,
-        SDL_PIXELFORMAT_RGBA8888,
-        SDL_TEXTUREACCESS_TARGET,
-        static_cast<int>(_rect.size.x),
-        static_cast<int>(_rect.size.y)
-    );
+    RenderTarget target(renderer, _rect.size);
 
-    if (!target)
-        return;
-
-    SDL_SetRenderTarget(renderer, target);
+    renderer.setTarget(target);
 
     renderer.setRenderColor({40, 40, 40});
     renderer.renderRoundedRect(
@@ -174,24 +169,39 @@ void Textbox::render(Window& window) {
             renderer.renderRect(caret);
         }
     }
+    if (_active) {
+        SDL_Rect area{
+            static_cast<int>(
+                _rect.origin.x +
+                5.0f -
+                _scroll.x +
+                getCaretX()
+            ),
+            static_cast<int>(
+                _rect.origin.y +
+                5.0f -
+                _scroll.y +
+                getCaretY()
+            ),
+            2,
+            static_cast<int>(_fontHeight)
+        };
+
+        SDL_SetTextInputArea(
+            Textbox::window(window),
+            &area,
+            0
+        );
+    }
 
 
     // ========================================================
     // Finish target texture
     // ========================================================
 
-    SDL_SetRenderTarget(renderer, nullptr);
+    renderer.resetTarget();
 
-    SDL_FRect dstRect = _rect;
-
-    SDL_RenderTexture(
-        renderer,
-        target,
-        nullptr,
-        &dstRect
-    );
-
-    SDL_DestroyTexture(target);
+    renderer.renderTexture(target, Rect::zero, _rect);
 }
 
 

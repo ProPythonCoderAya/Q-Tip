@@ -7,12 +7,14 @@
 #include <Q-Tip/Config.h>
 
 #include "Texture.h"
+#include "Q-Tip/Math/Point.h"
 
 QTIP_CODE_BEGIN
-
-class RenderTarget : protected Texture {
+    class RenderTarget : public Texture {
 public:
     RenderTarget(Renderer& renderer, int width, int height);
+
+    RenderTarget(Renderer& renderer, Point size);
 };
 
 QTIP_CODE_END

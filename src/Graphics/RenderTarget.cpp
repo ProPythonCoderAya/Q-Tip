@@ -11,10 +11,12 @@
 
 QTIP_CODE_BEGIN
 
-RenderTarget::RenderTarget(Renderer& renderer, int width, int height) : Texture(renderer, "") {
-    destroy();
-
+RenderTarget::RenderTarget(Renderer& renderer, int width, int height) {
     _texture = SDL_CreateTexture(renderer._renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width, height);
+}
+
+RenderTarget::RenderTarget(Renderer& renderer, Point size) {
+    _texture = SDL_CreateTexture(renderer._renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, size.x, size.y);
 }
 
 QTIP_CODE_END

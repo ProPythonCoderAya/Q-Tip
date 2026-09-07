@@ -10,12 +10,13 @@
 #include <Q-Tip/Graphics/Renderer.h>
 
 #include "Q-Tip/Window/Input.h"
-#include "Q-Tip/UI/UIObject.h"
 
 struct SDL_Window;
 union SDL_Event;
 
 QTIP_CODE_BEGIN
+
+class UIObject;
 
 class Window {
 public:
@@ -63,6 +64,7 @@ private:
     bool _shouldClose = false;
 
     friend class Texture;
+    friend class UIObject;
 };
 
 QTIP_CODE_END

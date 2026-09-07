@@ -6,8 +6,10 @@
 #define QTIP_UIOBJECT_H
 
 #include <Q-Tip/Config.h>
+#include <Q-Tip/Window/Window.h>
 
 union SDL_Event;
+struct SDL_Window;
 
 QTIP_CODE_BEGIN
 
@@ -16,6 +18,10 @@ public:
     virtual ~UIObject() = default;
 
     virtual void handleEvent(const SDL_Event& event) = 0;
+protected:
+    static SDL_Window* window(Window& window) {
+        return window._window;
+    }
 };
 
 QTIP_CODE_END

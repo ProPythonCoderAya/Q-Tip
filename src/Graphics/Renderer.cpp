@@ -7,24 +7,25 @@
 #include <SDL3/SDL.h>
 #include "../include/Helpers.h"
 #include "earcut.hpp"
+#include "Q-Tip/Graphics/RenderTarget.h"
 
-namespace mapbox {
-namespace util {
+
+namespace mapbox::util {
 
     // Registrera Index 0 (X)
     template <>
     struct nth<0, QTip::Point> {
-        inline static double get(const QTip::Point& p) { return static_cast<double>(p.x); };
+        static double get(const QTip::Point& p) { return p.x; };
     };
 
     // Registrera Index 1 (Y)
     template <>
     struct nth<1, QTip::Point> {
-        inline static double get(const QTip::Point& p) { return static_cast<double>(p.y); };
+        static double get(const QTip::Point& p) { return p.y; };
     };
 
 }
-}
+
 
 QTIP_CODE_BEGIN
 
@@ -177,6 +178,14 @@ void Renderer::renderTexture(Texture& texture, Rect srcRect, Rect dstRect) {
         srcPtr,
         dstPtr
     );
+}
+
+void Renderer::setTarget(RenderTarget& renderTarget) {
+    SDL_SetRenderTarget(_renderer, renderTarget.nativeHandle());
+}
+
+void Renderer::resetTarget() {
+    SDL_SetRenderTarget(_renderer, nullptr);
 }
 
 QTIP_CODE_END

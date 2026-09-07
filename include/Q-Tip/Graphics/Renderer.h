@@ -20,6 +20,8 @@ struct SDL_Renderer;
 
 QTIP_CODE_BEGIN
 
+class RenderTarget;
+
 class Texture;
 
 class Renderer {
@@ -54,6 +56,9 @@ public:
     void renderTextCentered(const Font& font, const char* text, float x, float y, Color color);
 
     void renderTexture(Texture& texture, Rect srcRect, Rect dstRect);
+
+    void setTarget(RenderTarget& renderTarget);
+    void resetTarget();
 
 private:
     SDL_Renderer* _renderer = nullptr;
