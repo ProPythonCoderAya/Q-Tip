@@ -20,6 +20,8 @@
 QTIP_CODE_BEGIN
 
 class Textbox : public UIObject {
+MODDABLE_DERIVED(Textbox, UIObject)
+
 public:
     Textbox(float x, float y, float width, float height, const std::optional<Font>& font);
     Textbox(Rect rect, const std::optional<Font>& font);

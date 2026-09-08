@@ -2,11 +2,12 @@
 
 >WARNING: I have used AI in this project. Sorry. I am not that good at coding, but I can do it. I am sincerely sorry.
 
+Q-Tip is my little project, this was never thought to be used a lot by many people.
+I just had an idea. And I made it. Hope you like it a little at least.
+
 It is a small 2D graphics library written in modern C++ and based on SDL3.
 
 Q-Tip is intended to simplify 2D rendering using SDL3 without completely concealing SDL; it offers lightweight C++ wrappers for windows, rendering, colours, rectangles, fonts, and textures, and at the same time allows access to the underlying SDL handles when required.
-
-**Status:** In the early stages / version 0.1.0
 
 ## Features
 

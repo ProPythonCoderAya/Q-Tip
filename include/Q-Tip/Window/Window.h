@@ -19,6 +19,8 @@ QTIP_CODE_BEGIN
 class UIObject;
 
 class Window {
+MODDABLE_ROOT(Window)
+
 public:
     Window(const char* title, float width, float height);
     ~Window();

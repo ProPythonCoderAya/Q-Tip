@@ -14,6 +14,8 @@ struct SDL_Window;
 QTIP_CODE_BEGIN
 
 class UIObject {
+MODDABLE_ROOT(UIObject)
+
 public:
     virtual ~UIObject() = default;
 

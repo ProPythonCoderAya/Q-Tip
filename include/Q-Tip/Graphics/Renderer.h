@@ -9,6 +9,7 @@
 #include <Q-Tip/Graphics/Color.h>
 
 #include "Font.h"
+#include "Q-Tip/Moddable/Moddable.h"
 #include "Shapes/Circle.h"
 #include "Shapes/Triangle.h"
 #include "Shapes/Rect.h"
@@ -25,6 +26,8 @@ class RenderTarget;
 class Texture;
 
 class Renderer {
+MODDABLE_ROOT(Renderer)
+
 public:
     explicit Renderer(SDL_Window* window);
     ~Renderer();

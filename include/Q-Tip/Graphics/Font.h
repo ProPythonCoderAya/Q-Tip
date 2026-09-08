@@ -9,6 +9,7 @@
 #include <filesystem>
 
 #include "Q-Tip/Math/Point.h"
+#include "Q-Tip/Moddable/Moddable.h"
 
 namespace fs = std::filesystem;
 
@@ -17,6 +18,8 @@ struct TTF_Font;
 QTIP_CODE_BEGIN
 
 class Font {
+MODDABLE_ROOT(Font)
+
 public:
     explicit Font(fs::path path, float size);
     ~Font();

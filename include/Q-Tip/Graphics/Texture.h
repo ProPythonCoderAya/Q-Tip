@@ -8,6 +8,8 @@
 #include <filesystem>
 #include <Q-Tip/Config.h>
 
+#include "Q-Tip/Moddable/Moddable.h"
+
 struct SDL_Texture;
 
 QTIP_CODE_BEGIN
@@ -17,6 +19,8 @@ namespace fs = std::filesystem;
 class Renderer;
 
 class Texture {
+MODDABLE_ROOT(Texture)
+
 public:
     Texture(const Renderer& renderer, const fs::path& path);
     ~Texture();

@@ -8,9 +8,13 @@
 
 #include "Texture.h"
 #include "Q-Tip/Math/Point.h"
+#include "Q-Tip/Moddable/Moddable.h"
 
 QTIP_CODE_BEGIN
-    class RenderTarget : public Texture {
+
+class RenderTarget : public Texture {
+MODDABLE_DERIVED(RenderTarget, Texture)
+
 public:
     RenderTarget(Renderer& renderer, int width, int height);
 

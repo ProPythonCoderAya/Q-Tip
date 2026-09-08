@@ -6,6 +6,7 @@
 #include <array>
 #include <string>
 #include "Keys.h"
+#include "Q-Tip/Moddable/Moddable.h"
 
 union SDL_Event;
 
@@ -22,6 +23,8 @@ enum class MouseButton {
 class Window;
 
 class Input {
+MODDABLE_ROOT(Input)
+
 public:
     Input();
 
