@@ -2,7 +2,7 @@
 // Created by Ayaan on 2026-08-30.
 //
 
-#include "Q-Tip/UI/Textbox.h"
+#include "UI/Textbox.h"
 
 #include <algorithm>
 

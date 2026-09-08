@@ -39,9 +39,6 @@ add_library(QTip STATIC
         src/Clock.cpp
         src/Graphics/Color.cpp
         src/Graphics/Shapes/Rect.cpp
-        src/UI/Textbox.cpp
-        include/Q-Tip/UI/Textbox.h
-        include/Q-Tip/UI/UIObject.h
         include/Q-Tip/Types/Lazy.h
         src/Graphics/RenderTarget.cpp
         include/Q-Tip/Graphics/RenderTarget.h
@@ -50,6 +47,10 @@ add_library(QTip STATIC
 
 add_library(QTip::QTip ALIAS QTip)
 
+file(GLOB MOD_INCLUDE_DIRS CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/Mods/*/include"
+)
+
 target_include_directories(QTip
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -57,6 +58,7 @@ target_include_directories(QTip
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/third_party
+        ${MOD_INCLUDE_DIRS}
 )
 
 target_link_libraries(QTip
@@ -111,20 +113,6 @@ target_include_directories(QTipShapeTest
 )
 
 target_link_libraries(QTipShapeTest
-    PRIVATE
-        QTip::QTip
-)
-
-add_executable(QTipTextboxTest
-    examples/textbox.cpp
-)
-
-target_include_directories(QTipTextboxTest
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
-
-target_link_libraries(QTipTextboxTest
     PRIVATE
         QTip::QTip
 )

@@ -12,7 +12,7 @@
 #include <Q-Tip/Config.h>
 
 #include "UIObject.h"
-#include "../Types/Lazy.h"
+#include "Q-Tip//Types/Lazy.h"
 #include "Q-Tip/Graphics/Font.h"
 #include "Q-Tip/Graphics/Shapes/Rect.h"
 #include "Q-Tip/Window/Window.h"

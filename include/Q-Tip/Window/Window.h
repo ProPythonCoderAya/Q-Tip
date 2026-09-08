@@ -55,6 +55,8 @@ public:
 
     void pollEvents();
 
+    operator SDL_Window*() const;
+
 private:
     SDL_Window* _window = nullptr;
     SDL_Event* _event = nullptr;
@@ -66,7 +68,6 @@ private:
     bool _shouldClose = false;
 
     friend class Texture;
-    friend class UIObject;
 };
 
 QTIP_CODE_END

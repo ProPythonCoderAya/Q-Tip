@@ -75,8 +75,6 @@ struct function_traits<Return(*)(Args...)> {
 };
 
 
-// noexcept free function
-
 template <typename Return, typename... Args>
 struct function_traits<Return(*)(Args...) noexcept>
     : function_traits<Return(*)(Args...)> {};
@@ -97,49 +95,35 @@ struct function_traits<Return(Class::*)(Args...)> {
 };
 
 
-// const member
-
 template <typename Class, typename Return, typename... Args>
 struct function_traits<Return(Class::*)(Args...) const>
     : function_traits<Return(Class::*)(Args...)> {};
 
-
-// volatile member
 
 template <typename Class, typename Return, typename... Args>
 struct function_traits<Return(Class::*)(Args...) volatile>
     : function_traits<Return(Class::*)(Args...)> {};
 
 
-// const volatile member
-
 template <typename Class, typename Return, typename... Args>
 struct function_traits<Return(Class::*)(Args...) const volatile>
     : function_traits<Return(Class::*)(Args...)> {};
 
-
-// noexcept member
 
 template <typename Class, typename Return, typename... Args>
 struct function_traits<Return(Class::*)(Args...) noexcept>
     : function_traits<Return(Class::*)(Args...)> {};
 
 
-// const noexcept member
-
 template <typename Class, typename Return, typename... Args>
 struct function_traits<Return(Class::*)(Args...) const noexcept>
     : function_traits<Return(Class::*)(Args...) const> {};
 
 
-// volatile noexcept member
-
 template <typename Class, typename Return, typename... Args>
 struct function_traits<Return(Class::*)(Args...) volatile noexcept>
     : function_traits<Return(Class::*)(Args...) volatile> {};
 
-
-// const volatile noexcept member
 
 template <typename Class, typename Return, typename... Args>
 struct function_traits<Return(Class::*)(Args...) const volatile noexcept>
@@ -149,22 +133,17 @@ struct function_traits<Return(Class::*)(Args...) const volatile noexcept>
 // ============================================================
 // Lambda / functor traits
 // ============================================================
-//
-// For:
-//
-//     [](Button& button, int value)
-//
-// operator() is technically a member function, but for Moddable
-// we want to treat Button& as the explicit object argument.
-//
-// ============================================================
 
 template <typename Callable>
 struct function_traits
-    : function_traits<decltype(&std::remove_cvref_t<Callable>::operator())> {
+    : function_traits<
+        decltype(&std::remove_cvref_t<Callable>::operator())
+    > {
 
     using base =
-        function_traits<decltype(&std::remove_cvref_t<Callable>::operator())>;
+        function_traits<
+            decltype(&std::remove_cvref_t<Callable>::operator())
+        >;
 
     static constexpr bool is_member_function = false;
 };
@@ -177,18 +156,14 @@ struct function_traits
 namespace moddable_detail {
 
 template <typename T>
-using remove_cvref_t = std::remove_cv_t<std::remove_reference_t<T>>;
+using remove_cvref_t =
+    std::remove_cv_t<std::remove_reference_t<T>>;
 
-
-// ------------------------------------------------------------
-// std::any -> requested argument
-// ------------------------------------------------------------
 
 template <typename T>
 decltype(auto) getArgument(const std::any& value) {
     using U = remove_cvref_t<T>;
 
-    // Exact type.
     if (value.type() == typeid(U)) {
         if constexpr (std::is_reference_v<T>) {
             return std::any_cast<U&>(
@@ -199,18 +174,20 @@ decltype(auto) getArgument(const std::any& value) {
         }
     }
 
-    // const char* -> std::string
     if constexpr (std::is_same_v<U, std::string>) {
         if (value.type() == typeid(const char*)) {
-            return std::string(std::any_cast<const char*>(value));
+            return std::string(
+                std::any_cast<const char*>(value)
+            );
         }
 
         if (value.type() == typeid(char*)) {
-            return std::string(std::any_cast<char*>(value));
+            return std::string(
+                std::any_cast<char*>(value)
+            );
         }
     }
 
-    // std::string -> std::string_view
     if constexpr (std::is_same_v<U, std::string_view>) {
         if (value.type() == typeid(std::string)) {
             return std::string_view(
@@ -256,10 +233,6 @@ MethodResult invokeFreeImpl(
     using Traits = function_traits<Callable>;
     using Return = Traits::return_type;
 
-    // Lambda/free function form is:
-    //
-    //     callable(Object&, Arg1, Arg2, ...)
-    //
     using ObjectArgument =
         std::tuple_element_t<0, typename Traits::args>;
 
@@ -269,6 +242,7 @@ MethodResult invokeFreeImpl(
     );
 
     if constexpr (std::is_void_v<Return>) {
+
         std::invoke(
             callable,
             object,
@@ -278,7 +252,9 @@ MethodResult invokeFreeImpl(
         );
 
         return {};
+
     } else {
+
         static_assert(
             std::is_copy_constructible_v<std::remove_cv_t<Return>>,
             "Moddable return values must be copy constructible"
@@ -311,7 +287,6 @@ MethodResult invokeMemberImpl(
 ) {
     using Traits = function_traits<Callable>;
     using Return = Traits::return_type;
-
     using Class = Traits::class_type;
 
     static_assert(
@@ -320,6 +295,7 @@ MethodResult invokeMemberImpl(
     );
 
     if constexpr (std::is_void_v<Return>) {
+
         std::invoke(
             callable,
             object,
@@ -329,7 +305,9 @@ MethodResult invokeMemberImpl(
         );
 
         return {};
+
     } else {
+
         static_assert(
             std::is_copy_constructible_v<std::remove_cv_t<Return>>,
             "Moddable return values must be copy constructible"
@@ -368,9 +346,10 @@ auto makeFunction(Callable&& callable) {
 
         return [
             function = std::forward<Callable>(callable)
-        ](Object& object,
-          const std::vector<std::any>& arguments) mutable
-            -> MethodResult {
+        ](
+            Object& object,
+            const std::vector<std::any>& arguments
+        ) mutable -> MethodResult {
 
             if (arguments.size() != Arity) {
                 throw std::invalid_argument(
@@ -397,13 +376,15 @@ auto makeFunction(Callable&& callable) {
             "A Moddable lambda/free function must take the object as its first argument"
         );
 
-        constexpr std::size_t ArgumentCount = Arity - 1;
+        constexpr std::size_t ArgumentCount =
+            Arity - 1;
 
         return [
             function = std::forward<Callable>(callable)
-        ](Object& object,
-          const std::vector<std::any>& arguments) mutable
-            -> MethodResult {
+        ](
+            Object& object,
+            const std::vector<std::any>& arguments
+        ) mutable -> MethodResult {
 
             if (arguments.size() != ArgumentCount) {
                 throw std::invalid_argument(
@@ -488,22 +469,59 @@ private:
 template <typename Object, typename Parent = void>
 class Moddable {
 public:
+
     using Function = Method<Object>::Function;
 
+
+    // ========================================================
+    // Per-object mod storage
+    // ========================================================
+
+    struct Storage {
+        std::vector<std::any> variables;
+    };
+
+
 private:
+
+    // ========================================================
+    // Variable definition
+    // ========================================================
+
+    struct VariableDefinition {
+        std::size_t index;
+        std::function<std::any()> create;
+        const std::type_info* type;
+    };
+
+
+    // ========================================================
+    // Registry
+    // ========================================================
+
     struct Registry {
         std::unordered_map<std::string, Function> methods;
+
+        std::unordered_map<
+            std::string,
+            VariableDefinition
+        > variables;
+
+        std::size_t nextVariableIndex = 0;
+
         mutable std::shared_mutex mutex;
     };
+
 
     static Registry& registry() {
         static Registry instance;
         return instance;
     }
 
-    // --------------------------------------------------------
-    // Own methods only
-    // --------------------------------------------------------
+
+    // ========================================================
+    // Own method lookup
+    // ========================================================
 
     static std::optional<Function>
     findOwn(std::string_view name) {
@@ -512,7 +530,8 @@ private:
 
         std::shared_lock lock(r.mutex);
 
-        const auto it = r.methods.find(std::string(name));
+        const auto it =
+            r.methods.find(std::string(name));
 
         if (it == r.methods.end()) {
             return std::nullopt;
@@ -521,10 +540,54 @@ private:
         return it->second;
     }
 
+
+    // ========================================================
+    // Own variable lookup
+    // ========================================================
+
+    static std::optional<VariableDefinition>
+    findOwnVariable(std::string_view name) {
+
+        auto& r = registry();
+
+        std::shared_lock lock(r.mutex);
+
+        const auto it =
+            r.variables.find(std::string(name));
+
+        if (it == r.variables.end()) {
+            return std::nullopt;
+        }
+
+        return it->second;
+    }
+
+
+    // ========================================================
+    // Get this object's storage
+    // ========================================================
+    //
+    // MODDABLE_ROOT / MODDABLE_DERIVED injects this member into
+    // the actual class:
+    //
+    //     ModdableType::Storage _moddableStorage;
+    //
+    // ========================================================
+
+    static Storage& storage(Object& object) {
+        return object._moddableStorage;
+    }
+
+
+    static const Storage& storage(const Object& object) {
+        return object._moddableStorage;
+    }
+
+
 public:
 
     // ========================================================
-    // Registration
+    // Method registration
     // ========================================================
 
     template <typename Callable>
@@ -554,7 +617,159 @@ public:
 
 
     // ========================================================
-    // Remove
+    // Variable registration
+    // ========================================================
+    //
+    // Example:
+    //
+    //     Window::extendVariable<std::vector<UIObject*>>(
+    //         "uiObjects"
+    //     );
+    //
+    // Every Window gets its OWN vector.
+    //
+    // ========================================================
+
+    template <typename T>
+    static bool extendVariable(
+        std::string name
+    ) {
+        auto& r = registry();
+
+        std::unique_lock lock(r.mutex);
+
+        const auto it =
+            r.variables.find(name);
+
+        if (it != r.variables.end()) {
+            return true;
+        }
+
+        const std::size_t index =
+            r.nextVariableIndex++;
+
+        r.variables.emplace(
+            std::move(name),
+            VariableDefinition{
+                index,
+                [] {
+                    return std::any(T{});
+                },
+                &typeid(T)
+            }
+        );
+
+        return false;
+    }
+
+
+    // ========================================================
+    // Variable access
+    // ========================================================
+
+    template <typename T>
+    static T& getVariable(
+        Object& object,
+        std::string_view name
+    ) {
+
+        const auto definition =
+            findVariable(name);
+
+        if (definition.type != &typeid(T)) {
+            throw std::invalid_argument(
+                "Moddable variable has the wrong type: " +
+                std::string(name)
+            );
+        }
+
+        auto& s = storage(object);
+
+        if (s.variables.size() <= definition.index) {
+            s.variables.resize(
+                definition.index + 1
+            );
+        }
+
+        auto& slot =
+            s.variables[definition.index];
+
+        if (!slot.has_value()) {
+            slot = definition.create();
+        }
+
+        return std::any_cast<T&>(slot);
+    }
+
+
+    template <typename T>
+    static const T& getVariable(
+        const Object& object,
+        std::string_view name
+    ) {
+
+        const auto definition =
+            findVariable(name);
+
+        if (definition.type != &typeid(T)) {
+            throw std::invalid_argument(
+                "Moddable variable has the wrong type: " +
+                std::string(name)
+            );
+        }
+
+        const auto& s = storage(object);
+
+        if (s.variables.size() <= definition.index ||
+            !s.variables[definition.index].has_value()) {
+
+            throw std::runtime_error(
+                "Moddable variable has not been initialized: " +
+                std::string(name)
+            );
+        }
+
+        return std::any_cast<const T&>(
+            s.variables[definition.index]
+        );
+    }
+
+
+private:
+
+    // ========================================================
+    // Full variable lookup
+    // ========================================================
+
+    static VariableDefinition findVariable(
+        std::string_view name
+    ) {
+
+        if (const auto own = findOwnVariable(name)) {
+            return *own;
+        }
+
+        if constexpr (!std::is_void_v<Parent>) {
+
+            static_assert(
+                std::is_base_of_v<Parent, Object>,
+                "Moddable's Parent must be an actual C++ base class"
+            );
+
+            return Parent::findModdableVariable(name);
+        }
+
+        throw std::runtime_error(
+            "Moddable variable not found: " +
+            std::string(name)
+        );
+    }
+
+
+public:
+
+    // ========================================================
+    // Remove method
     // ========================================================
 
     static bool removeMethod(
@@ -571,7 +786,7 @@ public:
 
 
     // ========================================================
-    // Own method lookup
+    // Method lookup
     // ========================================================
 
     static bool hasOwnMethod(
@@ -580,10 +795,6 @@ public:
         return findOwn(name).has_value();
     }
 
-
-    // ========================================================
-    // Full lookup
-    // ========================================================
 
     static bool hasMethod(
         std::string_view name
@@ -609,10 +820,6 @@ public:
 
         if constexpr (!std::is_void_v<Parent>) {
 
-            /*
-             * This assertion happens when find() is actually
-             * instantiated, meaning Object is complete.
-             */
             static_assert(
                 std::is_base_of_v<Parent, Object>,
                 "Moddable's Parent must be an actual C++ base class"
@@ -621,17 +828,6 @@ public:
             const auto parentFunction =
                 Parent::findModdableMethod(name);
 
-            /*
-             * Convert:
-             *
-             *     Parent& -> MethodResult
-             *
-             * into:
-             *
-             *     Object& -> MethodResult
-             *
-             * by safely viewing Object as its Parent.
-             */
             return [
                 parentFunction
             ](
@@ -719,7 +915,94 @@ public:
 
         return result;
     }
+
+
+    // ========================================================
+    // Variable names
+    // ========================================================
+
+    static std::vector<std::string>
+    ownVariableNames() {
+
+        auto& r = registry();
+
+        std::shared_lock lock(r.mutex);
+
+        std::vector<std::string> result;
+
+        result.reserve(r.variables.size());
+
+        for (const auto& [name, _] : r.variables) {
+            result.push_back(name);
+        }
+
+        return result;
+    }
+
+
+    static std::vector<std::string>
+    variableNames() {
+
+        std::vector<std::string> result;
+
+        if constexpr (!std::is_void_v<Parent>) {
+            result =
+                Parent::moddableVariableNames();
+        }
+
+        const auto own =
+            ownVariableNames();
+
+        for (const auto& name : own) {
+
+            const auto it =
+                std::find(
+                    result.begin(),
+                    result.end(),
+                    name
+                );
+
+            if (it == result.end()) {
+                result.push_back(name);
+            }
+        }
+
+        return result;
+    }
+
+
+    static bool hasOwnVariable(
+        std::string_view name
+    ) {
+        return findOwnVariable(name).has_value();
+    }
+
+
+    static bool hasVariable(
+        std::string_view name
+    ) {
+        return findVariableNoThrow(name);
+    }
+
+
+private:
+
+    static bool findVariableNoThrow(
+        std::string_view name
+    ) {
+
+        if (findOwnVariable(name).has_value()) {
+            return true;
+        }
+
+        if constexpr (!std::is_void_v<Parent>) {
+            return Parent::hasModdableVariable(name);
+        }
+
+        return false;
+    }
 };
+
 
 // ============================================================
 // Macros
@@ -728,6 +1011,8 @@ public:
 #define MODDABLE_ROOT(TYPE)                                             \
 private:                                                                \
     using ModdableType = Moddable<TYPE>;                                \
+    friend class Moddable<TYPE>;                                          \
+    ModdableType::Storage _moddableStorage;                             \
                                                                          \
 public:                                                                 \
     template <typename Callable>                                        \
@@ -736,6 +1021,53 @@ public:                                                                 \
             std::move(name),                                             \
             std::forward<Callable>(callable)                            \
         );                                                               \
+    }                                                                    \
+                                                                         \
+    template <typename T>                                                \
+    static bool extendVariable(std::string name) {                      \
+        return ModdableType::template extendVariable<T>(                \
+            std::move(name)                                              \
+        );                                                               \
+    }                                                                    \
+                                                                         \
+    template <typename T>                                                \
+    T& variable(std::string_view name) {                                \
+        return ModdableType::template getVariable<T>(                   \
+            *this, name                                                    \
+        );                                                               \
+    }                                                                    \
+                                                                         \
+    template <typename T>                                                \
+    const T& variable(std::string_view name) const {                    \
+        return ModdableType::template getVariable<T>(                   \
+            *this, name                                                    \
+        );                                                               \
+    }                                                                    \
+                                                                         \
+    template <typename T>                                                \
+    T& v(std::string_view name) {                                        \
+        return variable<T>(name);                                        \
+    }                                                                    \
+                                                                         \
+    template <typename T>                                                \
+    const T& v(std::string_view name) const {                            \
+        return variable<T>(name);                                        \
+    }                                                                    \
+                                                                         \
+    static bool hasVariable(std::string_view name) {                    \
+        return ModdableType::hasVariable(name);                         \
+    }                                                                    \
+                                                                         \
+    static bool hasOwnVariable(std::string_view name) {                 \
+        return ModdableType::hasOwnVariable(name);                      \
+    }                                                                    \
+                                                                        \
+    static bool hasModdableVariable(std::string_view name) {            \
+        return ModdableType::hasVariable(name);                         \
+    }                                                                   \
+                                                                         \
+    static auto moddableVariableNames() {                               \
+        return ModdableType::variableNames();                           \
     }                                                                    \
                                                                          \
     static bool removeMethod(std::string_view name) {                   \
@@ -776,6 +1108,8 @@ private:
 #define MODDABLE_DERIVED(TYPE, PARENT)                                  \
 private:                                                                \
     using ModdableType = Moddable<TYPE, PARENT>;                        \
+    friend class Moddable<TYPE, PARENT>;                                \
+    ModdableType::Storage _moddableStorage;                             \
                                                                          \
 public:                                                                 \
     template <typename Callable>                                        \
@@ -784,6 +1118,53 @@ public:                                                                 \
             std::move(name),                                             \
             std::forward<Callable>(callable)                            \
         );                                                               \
+    }                                                                    \
+                                                                         \
+    template <typename T>                                                \
+    static bool extendVariable(std::string name) {                      \
+        return ModdableType::template extendVariable<T>(                \
+            std::move(name)                                              \
+        );                                                               \
+    }                                                                    \
+                                                                         \
+    template <typename T>                                                \
+    T& variable(std::string_view name) {                                \
+        return ModdableType::template getVariable<T>(                   \
+            *this, name                                                    \
+        );                                                               \
+    }                                                                    \
+                                                                         \
+    template <typename T>                                                \
+    const T& variable(std::string_view name) const {                    \
+        return ModdableType::template getVariable<T>(                   \
+            *this, name                                                    \
+        );                                                               \
+    }                                                                    \
+                                                                         \
+    template <typename T>                                                \
+    T& v(std::string_view name) {                                        \
+        return variable<T>(name);                                        \
+    }                                                                    \
+                                                                         \
+    template <typename T>                                                \
+    const T& v(std::string_view name) const {                            \
+        return variable<T>(name);                                        \
+    }                                                                    \
+                                                                         \
+    static bool hasVariable(std::string_view name) {                    \
+        return ModdableType::hasVariable(name);                         \
+    }                                                                    \
+                                                                         \
+    static bool hasOwnVariable(std::string_view name) {                 \
+        return ModdableType::hasOwnVariable(name);                      \
+    }                                                                    \
+                                                                        \
+    static bool hasModdableVariable(std::string_view name) {            \
+        return ModdableType::hasVariable(name);                         \
+    }                                                                   \
+                                                                         \
+    static auto moddableVariableNames() {                               \
+        return ModdableType::variableNames();                           \
     }                                                                    \
                                                                          \
     static bool removeMethod(std::string_view name) {                   \
@@ -828,6 +1209,7 @@ private:
 #define MODDABLE_DETAIL_JOIN_IMPL(A, B) A##B
 #define MODDABLE_DETAIL_JOIN(A, B) MODDABLE_DETAIL_JOIN_IMPL(A, B)
 
+
 #define MODDABLE_DETAIL_EXTEND_IMPL(                                  \
     TYPE, NAME, FUNCTION, ID                                           \
 )                                                                       \
@@ -842,7 +1224,30 @@ namespace {                                                             \
         }();                                                             \
 }
 
+
 #define MODDABLE_EXTEND(TYPE, NAME, FUNCTION)                           \
     MODDABLE_DETAIL_EXTEND_IMPL(                                        \
         TYPE, NAME, FUNCTION, __COUNTER__                                \
+    )
+
+
+// ============================================================
+// Automatic variable registration
+// ============================================================
+
+#define MODDABLE_DETAIL_VARIABLE_IMPL(                                 \
+    TYPE, VARIABLE_TYPE, NAME, ID                                      \
+)                                                                       \
+namespace {                                                             \
+    [[maybe_unused]] const bool                                         \
+        MODDABLE_DETAIL_JOIN(_moddable_variable_registration_, ID) = [] { \
+            TYPE::template extendVariable<VARIABLE_TYPE>(NAME);         \
+            return true;                                                \
+        }();                                                             \
+}
+
+
+#define MODDABLE_VARIABLE(TYPE, VARIABLE_TYPE, NAME)                    \
+    MODDABLE_DETAIL_VARIABLE_IMPL(                                      \
+        TYPE, VARIABLE_TYPE, NAME, __COUNTER__                           \
     )

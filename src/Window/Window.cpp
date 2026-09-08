@@ -7,7 +7,7 @@
 #include <utility>
 
 #include "../include/Helpers.h"
-#include "Q-Tip/UI/UIObject.h"
+#include "UI/UIObject.h"
 
 #include <SDL3/SDL.h>
 
@@ -158,6 +158,10 @@ void Window::pollEvents() {
             break;
         }
     }
+}
+
+Window::operator SDL_Window*() const {
+    return _window;
 }
 
 QTIP_CODE_END

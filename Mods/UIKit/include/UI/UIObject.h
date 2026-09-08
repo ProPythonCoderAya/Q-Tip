@@ -22,7 +22,7 @@ public:
     virtual void handleEvent(const SDL_Event& event) = 0;
 protected:
     static SDL_Window* window(Window& window) {
-        return window._window;
+        return window;
     }
 };
 
