@@ -43,7 +43,7 @@ private:
     friend class Window;
 };
 
-#include <include/../Mods/ModLoader/ModLoader.tpp>
+#include "ModLoader.tpp"
 
 QTIP_CODE_END
 
