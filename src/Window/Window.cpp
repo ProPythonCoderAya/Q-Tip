@@ -7,7 +7,7 @@
 #include <utility>
 
 #include "../include/Helpers.h"
-#include "UI/UIObject.h"
+#include "../../Mods/UIKit/include/UIObject.h"
 
 #include <SDL3/SDL.h>
 
