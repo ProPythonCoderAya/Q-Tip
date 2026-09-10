@@ -47,10 +47,6 @@ add_library(QTip STATIC
 
 add_library(QTip::QTip ALIAS QTip)
 
-file(GLOB MOD_INCLUDE_DIRS CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/Mods/*/include"
-)
-
 target_include_directories(QTip
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -58,7 +54,6 @@ target_include_directories(QTip
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/third_party
-        ${MOD_INCLUDE_DIRS}
 )
 
 target_link_libraries(QTip
