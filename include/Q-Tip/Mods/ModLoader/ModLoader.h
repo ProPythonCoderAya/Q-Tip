@@ -26,6 +26,9 @@ public:
     template<std::derived_from<Mod> M>
     static void load();
 
+    template<std::derived_from<Mod> M>
+    static M* mod();
+
 private:
     ModLoader() = default;
 
