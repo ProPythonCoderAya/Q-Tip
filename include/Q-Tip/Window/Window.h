@@ -16,8 +16,6 @@ union SDL_Event;
 
 QTIP_CODE_BEGIN
 
-class UIObject;
-
 class Window {
 MODDABLE_ROOT(Window)
 
@@ -47,8 +45,6 @@ public:
 
     [[nodiscard]] bool shouldClose() const;
 
-    void addUIObject(UIObject* uiObject);
-
     Renderer& getRenderer();
 
     Input& input();
@@ -61,7 +57,6 @@ private:
     SDL_Window* _window = nullptr;
     SDL_Event* _event = nullptr;
     std::optional<Renderer> _renderer;
-    std::vector<UIObject*> _uiObjects;
     Input _input{};
     float _width = 0;
     float _height = 0;
