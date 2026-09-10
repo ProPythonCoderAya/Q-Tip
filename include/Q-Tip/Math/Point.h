@@ -5,17 +5,13 @@
 #ifndef QTIP_POINT_H
 #define QTIP_POINT_H
 #include "Q-Tip/Config.h"
+#include <cmath>
 
 QTIP_CODE_BEGIN
 
 struct Point {
     float x;
     float y;
-
-    constexpr Point() = default;
-
-    constexpr Point(float x, float y)
-        : x(x), y(y) {}
 
     // Addition
     constexpr Point operator+(const Point& other) const {
