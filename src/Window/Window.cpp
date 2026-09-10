@@ -125,11 +125,6 @@ Point Window::size() const {
     return _shouldClose;
 }
 
-void Window::addUIObject(UIObject* uiObject) {
-    if (!uiObject) return;
-    _uiObjects.push_back(uiObject);
-}
-
 Renderer& Window::getRenderer() {
     return _renderer.value();
 }
