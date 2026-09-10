@@ -42,7 +42,10 @@ add_library(QTip STATIC
         include/Q-Tip/Types/Lazy.h
         src/Graphics/RenderTarget.cpp
         include/Q-Tip/Graphics/RenderTarget.h
-        include/Q-Tip/Moddable/Moddable.h
+        include/Q-Tip/Mods/Moddable.h
+        include/Q-Tip/Mods/Mod.h
+        src/Mods/ModLoader/ModLoader.cpp
+        include/Q-Tip/Mods/ModLoader/ModLoader.h
 )
 
 add_library(QTip::QTip ALIAS QTip)

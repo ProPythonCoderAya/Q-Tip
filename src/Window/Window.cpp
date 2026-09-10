@@ -10,9 +10,10 @@
 
 #include <SDL3/SDL.h>
 
-QTIP_CODE_BEGIN
+#include "Q-Tip/Mods/ModLoader/ModLoader.h"
 
-Window::Window(const char* title, float width, float height) {
+QTIP_CODE_BEGIN
+    Window::Window(const char* title, float width, float height) {
     _window = SDL_CreateWindow(title, static_cast<int>(width), static_cast<int>(height), SDL_WINDOW_RESIZABLE); // resizable default for now
     if (!_window) {
         QTipLog(fmt("SDL_CreateWindow failed: %s", SDL_GetError()), LOG_FATAL);
@@ -137,6 +138,7 @@ void Window::pollEvents() {
     while (SDL_PollEvent(_event)) {
         auto event = *_event;
         _input.processEvent(event);
+        ModLoader::instance.handleEvent(event);
         switch (event.type) {
         case SDL_EVENT_QUIT: {
             _shouldClose = true;

@@ -6,7 +6,7 @@
 #include <array>
 #include <string>
 #include "Keys.h"
-#include "Q-Tip/Moddable/Moddable.h"
+#include "Q-Tip/Mods/Moddable.h"
 
 union SDL_Event;
 

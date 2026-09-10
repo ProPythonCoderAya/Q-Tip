@@ -8,7 +8,7 @@
 #include <filesystem>
 #include <Q-Tip/Config.h>
 
-#include "Q-Tip/Moddable/Moddable.h"
+#include "Q-Tip/Mods/Moddable.h"
 
 struct SDL_Texture;
 

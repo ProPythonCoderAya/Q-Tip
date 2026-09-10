@@ -9,7 +9,7 @@
 #include <filesystem>
 
 #include "Q-Tip/Math/Point.h"
-#include "Q-Tip/Moddable/Moddable.h"
+#include "Q-Tip/Mods/Moddable.h"
 
 namespace fs = std::filesystem;
 

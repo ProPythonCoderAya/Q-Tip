@@ -8,7 +8,7 @@
 
 #include "Texture.h"
 #include "Q-Tip/Math/Point.h"
-#include "Q-Tip/Moddable/Moddable.h"
+#include "Q-Tip/Mods/Moddable.h"
 
 QTIP_CODE_BEGIN
 

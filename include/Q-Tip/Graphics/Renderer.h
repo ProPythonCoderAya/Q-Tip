@@ -9,7 +9,7 @@
 #include <Q-Tip/Graphics/Color.h>
 
 #include "Font.h"
-#include "Q-Tip/Moddable/Moddable.h"
+#include "Q-Tip/Mods/Moddable.h"
 #include "Shapes/Circle.h"
 #include "Shapes/Triangle.h"
 #include "Shapes/Rect.h"
