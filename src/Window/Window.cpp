@@ -138,7 +138,7 @@ void Window::pollEvents() {
     while (SDL_PollEvent(_event)) {
         auto event = *_event;
         _input.processEvent(event);
-        ModLoader::instance.handleEvent(event);
+        ModLoader::handleEvent(event);
         switch (event.type) {
         case SDL_EVENT_QUIT: {
             _shouldClose = true;
