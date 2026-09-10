@@ -138,7 +138,6 @@ void Window::pollEvents() {
     while (SDL_PollEvent(_event)) {
         auto event = *_event;
         _input.processEvent(event);
-        for (auto* uiObject : _uiObjects) uiObject->handleEvent(event);
         switch (event.type) {
         case SDL_EVENT_QUIT: {
             _shouldClose = true;
