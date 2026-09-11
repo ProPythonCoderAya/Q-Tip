@@ -90,6 +90,14 @@ void Renderer::renderLine(Line line) {
     SDL_RenderLine(_renderer, line.start.x, line.start.y, line.end.x, line.end.y);
 }
 
+void Renderer::renderThickLine(Line line, float thickness, bool rounded_edges) {
+    DrawThickLine(_renderer, line.start.x, line.start.y, line.end.x, line.end.y, thickness);
+    if (rounded_edges) {
+        renderCircle({line.start, thickness / 2.0f});
+        renderCircle({line.end  , thickness / 2.0f});
+    }
+}
+
 void Renderer::renderRect(Rect rect, bool filled) {
     SDL_FRect sdlRect = rect;
 

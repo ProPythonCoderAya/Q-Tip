@@ -49,6 +49,7 @@ public:
 
     void renderPoint(Point point);
     void renderLine(Line line);
+    void renderThickLine(Line line, float thickness = 1.0f, bool rounded_edges = false);
     void renderRect(Rect rect, bool filled = true);
     void renderRoundedRect(Rect rect, int radius);
     void renderCircle(Circle circle, bool filled = true);
