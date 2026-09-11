@@ -25,6 +25,10 @@ struct Rect {
         return origin.x <= point.x && point.x <= origin.x + size.x && origin.y <= point.y && point.y <= origin.y + size.y;
     }
 
+    [[nodiscard]] Point center() const {
+        return origin + size / 2.0f;
+    }
+
     static const Rect zero;
 };
 
