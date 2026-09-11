@@ -93,8 +93,8 @@ void Renderer::renderLine(Line line) {
 void Renderer::renderThickLine(Line line, float thickness, bool rounded_edges) {
     DrawThickLine(_renderer, line.start.x, line.start.y, line.end.x, line.end.y, thickness);
     if (rounded_edges) {
-        renderCircle({line.start, thickness / 2.0f});
-        renderCircle({line.end  , thickness / 2.0f});
+        renderCircle({line.start, thickness / 2.0f - 1.0f});
+        renderCircle({line.end  , thickness / 2.0f - 1.0f});
     }
 }
 
