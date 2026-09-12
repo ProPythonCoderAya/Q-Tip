@@ -12,6 +12,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <cstring>
 
 constexpr char PATH_SEPARATOR = '/';
 const std::string ROOT = "/";
