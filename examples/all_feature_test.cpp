@@ -93,8 +93,8 @@ int main() {
 
         const float pulse = pingPong(t, 2.0f);
         const float slowPulse = pingPong(t, 5.0f);
-        const float orbitX = width * 0.5f + std::cosf(t * 1.5f) * 210.0f;
-        const float orbitY = height * 0.5f + std::sinf(t * 1.5f) * 135.0f;
+        const float orbitX = width * 0.5f + std::cos(t * 1.5f) * 210.0f;
+        const float orbitY = height * 0.5f + std::sin(t * 1.5f) * 135.0f;
 
         const Color background = lerpColor(Color::black, {18, 18, 32, 255}, slowPulse);
 
@@ -127,7 +127,7 @@ int main() {
         window->setRenderColor(Color::red);
         for (int i = 0; i < static_cast<int>((window.width() - 140.0f) / 9.0f); ++i) {
             const float x = 70.0f + static_cast<float>(i) * 9.0f;
-            const float y = 265.0f + std::sinf(t * 4.0f + static_cast<float>(i) * 0.28f) * 38.0f;
+            const float y = 265.0f + std::sin(t * 4.0f + static_cast<float>(i) * 0.28f) * 38.0f;
             window->renderPoint({x, y});
         }
 
@@ -137,8 +137,8 @@ int main() {
             const float radius = 20.0f + static_cast<float>(i % 8) * 5.0f;
             window->renderPoint(
                 {
-                    orbitX + std::cosf(angle) * radius,
-                    orbitY + std::sinf(angle) * radius
+                    orbitX + std::cos(angle) * radius,
+                    orbitY + std::sin(angle) * radius
                 }
             );
         }
@@ -213,7 +213,7 @@ int main() {
             largeFont,
             "Q-Tip Timed Feature Test",
             width / 2.0f,
-            42.0f + std::sinf(t * 2.5f) * 5.0f,
+            42.0f + std::sin(t * 2.5f) * 5.0f,
             Color::white
         );
 
