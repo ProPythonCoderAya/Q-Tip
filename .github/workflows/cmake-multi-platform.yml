@@ -1,0 +1,281 @@
+name: CMake
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        include:
+          # ----------------------------------------------------------
+          # Windows
+          # ----------------------------------------------------------
+          - name: Windows • MSVC
+            os: windows-latest
+            platform: windows
+            compiler: msvc
+
+          # ----------------------------------------------------------
+          # macOS
+          # ----------------------------------------------------------
+          - name: macOS • AppleClang
+            os: macos-latest
+            platform: macos
+            compiler: appleclang
+
+          # ----------------------------------------------------------
+          # Linux
+          # ----------------------------------------------------------
+          - name: Linux • GCC
+            os: ubuntu-latest
+            platform: linux
+            compiler: gcc
+
+          - name: Linux • Clang
+            os: ubuntu-latest
+            platform: linux
+            compiler: clang
+
+    steps:
+      # ==============================================================
+      # Checkout
+      # ==============================================================
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ==============================================================
+      # Linux dependencies
+      # ==============================================================
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'linux'
+        shell: bash
+        run: |
+          sudo apt-get update
+
+          sudo apt-get install -y \
+            ninja-build \
+            libsdl3-dev \
+            libsdl3-ttf-dev \
+            libsdl3-image-dev
+
+      # ==============================================================
+      # macOS dependencies
+      # ==============================================================
+
+      - name: Install macOS dependencies
+        if: matrix.platform == 'macos'
+        shell: bash
+        run: |
+          brew update
+
+          brew install \
+            sdl3 \
+            sdl3_ttf \
+            sdl3_image
+
+      # ==============================================================
+      # Windows dependencies
+      # ==============================================================
+
+      - name: Install Windows dependencies
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          $vcpkg = $env:VCPKG_INSTALLATION_ROOT
+
+          & "$vcpkg\vcpkg.exe" install `
+            sdl3:x64-windows `
+            sdl3-ttf:x64-windows `
+            sdl3-image:x64-windows
+
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+
+      # ==============================================================
+      # Configure
+      # ==============================================================
+
+      - name: Configure • Windows
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          cmake `
+            -S . `
+            -B build `
+            -G "Visual Studio 17 2022" `
+            -A x64 `
+            -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT\scripts\buildsystems\vcpkg.cmake" `
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Configure • Unix
+        if: matrix.platform != 'windows'
+        shell: bash
+        run: |
+          cmake \
+            -S . \
+            -B build \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release
+
+      # ==============================================================
+      # Build
+      # ==============================================================
+
+      - name: Build
+        shell: bash
+        run: |
+          cmake \
+            --build build \
+            --config Release \
+            --parallel
+
+      # ==============================================================
+      # Verify the actual Q-Tip targets were built
+      # ==============================================================
+
+      - name: Verify Q-Tip targets
+        shell: bash
+        run: |
+          cmake \
+            --build build \
+            --config Release \
+            --target QTip
+
+          cmake \
+            --build build \
+            --config Release \
+            --target QTipExample
+
+          cmake \
+            --build build \
+            --config Release \
+            --target QTipShapeTest
+
+      # ==============================================================
+      # Install Q-Tip
+      # ==============================================================
+
+      - name: Install Q-Tip
+        shell: bash
+        run: |
+          cmake \
+            --install build \
+            --config Release \
+            --prefix "$GITHUB_WORKSPACE/install"
+
+      # ==============================================================
+      # Test the installed package
+      #
+      # This makes a completely separate CMake project which uses:
+      #
+      #     find_package(QTip REQUIRED)
+      #
+      # exactly like a real Q-Tip user would.
+      # ==============================================================
+
+      - name: Create package consumer
+        shell: bash
+        run: |
+          mkdir -p package-test
+
+          cat > package-test/CMakeLists.txt <<'EOF'
+          cmake_minimum_required(VERSION 4.0)
+
+          project(QTipPackageTest
+              LANGUAGES CXX
+          )
+
+          set(CMAKE_CXX_STANDARD 20)
+          set(CMAKE_CXX_STANDARD_REQUIRED ON)
+          set(CMAKE_CXX_EXTENSIONS OFF)
+
+          find_package(QTip REQUIRED)
+
+          add_executable(QTipPackageTest
+              main.cpp
+          )
+
+          target_link_libraries(QTipPackageTest
+              PRIVATE
+                  QTip::QTip
+          )
+          EOF
+
+          cat > package-test/main.cpp <<'EOF'
+          #include <Q-Tip/QTip.h>
+
+          int main() {
+              QTip::Window window(
+                  "Q-Tip Package Test",
+                  640,
+                  480
+              );
+
+              return 0;
+          }
+          EOF
+
+      - name: Configure package consumer • Windows
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          cmake `
+            -S package-test `
+            -B package-test/build `
+            -G "Visual Studio 17 2022" `
+            -A x64 `
+            -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT\scripts\buildsystems\vcpkg.cmake" `
+            -DCMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE\install"
+
+      - name: Configure package consumer • Unix
+        if: matrix.platform != 'windows'
+        shell: bash
+        run: |
+          cmake \
+            -S package-test \
+            -B package-test/build \
+            -G Ninja \
+            -DCMAKE_PREFIX_PATH="$GITHUB_WORKSPACE/install"
+
+      # ==============================================================
+      # Build package consumer
+      # ==============================================================
+
+      - name: Build package consumer
+        shell: bash
+        run: |
+          cmake \
+            --build package-test/build \
+            --config Release \
+            --parallel
+
+      # ==============================================================
+      # Run CTest
+      # ==============================================================
+
+      - name: Test
+        shell: bash
+        run: |
+          ctest \
+            --test-dir build \
+            --build-config Release \
+            --output-on-failure
