@@ -189,11 +189,17 @@ void Renderer::renderTexture(Texture& texture, Rect srcRect, Rect dstRect) {
 }
 
 void Renderer::setTarget(RenderTarget& renderTarget) {
+    _renderTargetStack.push_back(SDL_GetRenderTarget(_renderer));
     SDL_SetRenderTarget(_renderer, renderTarget.nativeHandle());
 }
 
 void Renderer::resetTarget() {
-    SDL_SetRenderTarget(_renderer, nullptr);
+    if (_renderTargetStack.empty()) {
+        return;
+    }
+
+    SDL_SetRenderTarget(_renderer, _renderTargetStack.back());
+    _renderTargetStack.pop_back();
 }
 
 QTIP_CODE_END

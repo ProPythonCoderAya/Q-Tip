@@ -16,6 +16,7 @@
 #include "Shapes/Polygon.h"
 #include "Shapes/Line.h"
 
+struct SDL_Texture;
 struct SDL_Window;
 struct SDL_Renderer;
 
@@ -66,6 +67,7 @@ public:
 
 private:
     SDL_Renderer* _renderer = nullptr;
+    std::vector<SDL_Texture*> _renderTargetStack;
 
     friend class RenderTarget;
 };
