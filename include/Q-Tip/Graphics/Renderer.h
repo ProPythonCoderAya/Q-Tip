@@ -66,7 +66,7 @@ public:
     void setTarget(RenderTarget& renderTarget);
     void resetTarget();
 
-    void setClip(Rect& clipRect);
+    void setClip(const Rect& clipRect);
     void resetClip();
 
 private:

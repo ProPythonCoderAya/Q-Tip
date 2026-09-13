@@ -202,7 +202,7 @@ void Renderer::resetTarget() {
     _renderTargetStack.pop_back();
 }
 
-void Renderer::setClip(Rect& clipRect) {
+void Renderer::setClip(const Rect& clipRect) {
     _clipStack.push_back(_currentClip);
 
     if (_currentClip.enabled) {
