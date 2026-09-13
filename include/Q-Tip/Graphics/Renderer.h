@@ -19,6 +19,7 @@
 struct SDL_Texture;
 struct SDL_Window;
 struct SDL_Renderer;
+struct SDL_Rect;
 
 QTIP_CODE_BEGIN
 
@@ -65,9 +66,20 @@ public:
     void setTarget(RenderTarget& renderTarget);
     void resetTarget();
 
+    void setClip(Rect& clipRect);
+    void resetClip();
+
 private:
+    struct ClipState {
+        Rect rect{};
+        bool enabled = false;
+    };
+
     SDL_Renderer* _renderer = nullptr;
     std::vector<SDL_Texture*> _renderTargetStack;
+
+    ClipState _currentClip;
+    std::vector<ClipState> _clipStack;
 
     friend class RenderTarget;
 };

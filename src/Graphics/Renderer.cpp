@@ -202,4 +202,46 @@ void Renderer::resetTarget() {
     _renderTargetStack.pop_back();
 }
 
+void Renderer::setClip(Rect& clipRect) {
+    _clipStack.push_back(_currentClip);
+
+    if (_currentClip.enabled) {
+        _currentClip.rect = _currentClip.rect.intersection(clipRect);
+    } else {
+        _currentClip.rect = clipRect;
+        _currentClip.enabled = true;
+    }
+
+    SDL_Rect rect{
+        static_cast<int>(_currentClip.rect.origin.x),
+        static_cast<int>(_currentClip.rect.origin.y),
+        static_cast<int>(_currentClip.rect.size.x),
+        static_cast<int>(_currentClip.rect.size.y)
+    };
+
+    SDL_SetRenderClipRect(_renderer, &rect);
+}
+
+void Renderer::resetClip() {
+    if (_clipStack.empty()) {
+        return;
+    }
+
+    _currentClip = _clipStack.back();
+    _clipStack.pop_back();
+
+    if (_currentClip.enabled) {
+        SDL_Rect rect{
+            static_cast<int>(_currentClip.rect.origin.x),
+            static_cast<int>(_currentClip.rect.origin.y),
+            static_cast<int>(_currentClip.rect.size.x),
+            static_cast<int>(_currentClip.rect.size.y)
+        };
+
+        SDL_SetRenderClipRect(_renderer, &rect);
+    } else {
+        SDL_SetRenderClipRect(_renderer, nullptr);
+    }
+}
+
 QTIP_CODE_END
