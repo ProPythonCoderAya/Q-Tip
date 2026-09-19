@@ -13,10 +13,28 @@ QTIP_CODE_BEGIN
 
 RenderTarget::RenderTarget(Renderer& renderer, int width, int height) {
     _texture = SDL_CreateTexture(renderer._renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width, height);
+    if (!_texture)
+        return;
+
+    renderer.setTarget(*this);
+
+    renderer.setRenderColor({0, 0, 0, 0});
+    renderer.clear();
+
+    renderer.resetTarget();
 }
 
 RenderTarget::RenderTarget(Renderer& renderer, Point size) {
     _texture = SDL_CreateTexture(renderer._renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, size.x, size.y);
+    if (!_texture)
+        return;
+
+    renderer.setTarget(*this);
+
+    renderer.setRenderColor({0, 0, 0, 0});
+    renderer.clear();
+
+    renderer.resetTarget();
 }
 
 QTIP_CODE_END
