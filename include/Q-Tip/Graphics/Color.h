@@ -9,6 +9,7 @@
 #include "Q-Tip/Config.h"
 
 struct SDL_Color;
+struct SDL_FColor;
 
 QTIP_CODE_BEGIN
 
@@ -16,6 +17,7 @@ struct Color {
     uint8_t r, g, b, a = 255;
 
     operator ::SDL_Color() const;
+    operator ::SDL_FColor() const;
 
     static const Color clear;
 
