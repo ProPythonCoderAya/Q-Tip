@@ -31,9 +31,9 @@ QTIP_CODE_BEGIN
 
 Renderer::Renderer(SDL_Window* window) {
     if (!window) return;
-    _renderer = SDL_CreateRenderer(window, nullptr);
+    _renderer = SDL_CreateGPURenderer(nullptr, window);
     if (!_renderer) {
-        QTipLog(fmt("SDL_CreateRenderer failed: %s", SDL_GetError()), LOG_FATAL);
+        QTipLog(fmt("SDL_CreateGPURenderer failed: %s", SDL_GetError()), LOG_FATAL);
         exit(1);
     }
 }
