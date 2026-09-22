@@ -23,5 +23,5 @@ M* ModLoader::mod() {
         }
     }
 
-    throw std::logic_error("Requested Mod \"" + std::string(M::ID) + "\" is not loaded");
+    throw std::logic_error("Requested Mod \"" + std::string(M::NAME) + "\" is not loaded");
 }
