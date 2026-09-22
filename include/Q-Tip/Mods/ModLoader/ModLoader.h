@@ -15,6 +15,14 @@ union SDL_Event;
 
 QTIP_CODE_BEGIN
 
+template <typename M>
+concept ModType =
+    std::derived_from<M, Mod> &&
+    requires {
+        { M::ID } -> std::convertible_to<std::string_view>;
+        { M::NAME } -> std::convertible_to<std::string_view>;
+    };
+
 class ModLoader {
 public:
     ModLoader(const ModLoader&) = delete;
@@ -23,10 +31,10 @@ public:
     ModLoader(ModLoader&&) = delete;
     ModLoader& operator=(ModLoader&&) = delete;
 
-    template<std::derived_from<Mod> M>
+    template<ModType M>
     static void load();
 
-    template<std::derived_from<Mod> M>
+    template<ModType M>
     static M* mod();
 
 private:

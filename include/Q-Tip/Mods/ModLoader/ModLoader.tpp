@@ -1,9 +1,9 @@
 #pragma once
 
-template<std::derived_from<Mod> M>
+template<ModType M>
 void ModLoader::load() {
     for (const auto& mod : instance.mods) {
-        if (typeid(*mod) == typeid(M)) {
+        if (dynamic_cast<M*>(mod.get())) {
             return; // Already loaded
         }
     }
@@ -15,7 +15,7 @@ void ModLoader::load() {
     instance.mods.push_back(std::move(mod));
 }
 
-template <std::derived_from<Mod> M>
+template <ModType M>
 M* ModLoader::mod() {
     for (const auto& mod : instance.mods) {
         if (auto* result = dynamic_cast<M*>(mod.get())) {
@@ -23,5 +23,5 @@ M* ModLoader::mod() {
         }
     }
 
-    throw std::logic_error("Mod " + std::string(typeid(M).name()) + " not loaded");
+    throw std::logic_error("Requested Mod \"" + std::string(M::ID) + "\" is not loaded");
 }
