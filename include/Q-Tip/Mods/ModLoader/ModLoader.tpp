@@ -23,5 +23,5 @@ M* ModLoader::mod() {
         }
     }
 
-    return nullptr;
+    throw std::logic_error("Mod " + std::string(typeid(M).name()) + " not loaded");
 }
