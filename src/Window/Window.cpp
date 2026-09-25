@@ -17,30 +17,7 @@ QTIP_CODE_BEGIN
 
 Window::Window(const char* title, float width, float height)
 {
-    _window = SDL_CreateWindow(
-        title,
-        static_cast<int>(width),
-        static_cast<int>(height),
-        SDL_WINDOW_RESIZABLE
-    );
-
-    if (!_window) {
-        QTipLog(fmt("SDL_CreateWindow failed: %s", SDL_GetError()), LOG_FATAL);
-        exit(1);
-    }
-
-    _width = width;
-    _height = height;
-
-    _renderer.emplace(_window);
-
-    _event = new SDL_Event;
-
-    SDL_StartTextInput(_window);
-
-    _id = SDL_GetWindowID(_window);
-
-    QTRuntime.registerWindow(this);
+    open(title, width, height);
 }
 
 Window::~Window()
@@ -119,6 +96,51 @@ void Window::destroy()
 
     SDL_DestroyWindow(_window);
     _window = nullptr;
+}
+
+void Window::open(const char* title, float width, float height) {
+    _window = SDL_CreateWindow(
+        title,
+        static_cast<int>(width),
+        static_cast<int>(height),
+        SDL_WINDOW_RESIZABLE
+    );
+
+    if (!_window) {
+        QTipLog(fmt("SDL_CreateWindow failed: %s", SDL_GetError()), LOG_FATAL);
+        exit(1);
+    }
+
+    _width = width;
+    _height = height;
+
+    _renderer.emplace(_window);
+
+    _event = new SDL_Event;
+
+    SDL_StartTextInput(_window);
+
+    _id = SDL_GetWindowID(_window);
+
+    QTRuntime.registerWindow(this);
+}
+
+void Window::close() {
+    if (!_window)
+        return;
+
+    QTRuntime.unregisterWindow(this);
+
+    destroy();
+
+    _id = 0;
+    _width = 0;
+    _height = 0;
+    _shouldClose = true;
+}
+
+bool Window::isOpen() const {
+    return _window != nullptr;
 }
 
 Renderer* Window::operator->()

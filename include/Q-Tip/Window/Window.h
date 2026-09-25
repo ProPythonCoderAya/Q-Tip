@@ -31,6 +31,11 @@ public:
 
     void destroy();
 
+    void open(const char* title, float width, float height);
+    void close();
+
+    [[nodiscard]] bool isOpen() const;
+
     Renderer* operator->();
 
     void show();
