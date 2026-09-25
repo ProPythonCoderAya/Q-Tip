@@ -7,6 +7,8 @@ I just had an idea. And I made it. Hope you like it a little at least.
 
 >**NOTE:** Versioning doesn't work the way you think. It's `major.major.minor`. Weird, isn't it?
 
+>**NOTE:** This README is outdated, please wait until I want to make the docs when Q-Tip is big enough. Why I have not yet made documentation is due to me thinking that no one will notice Q-Tip at all, meaning no one will try to use Q-Tip. If you want to test or use Q-Tip, please read through the source code first.
+
 It is a small 2D graphics library written in modern C++ and based on SDL3.
 
 Q-Tip is intended to simplify 2D rendering using SDL3 without completely concealing SDL; it offers lightweight C++ wrappers for windows, rendering, colours, rectangles, fonts, and textures, and at the same time allows access to the underlying SDL handles when required.
@@ -40,7 +42,7 @@ int main() {
     Font font("assets/JetBrainsMono-Regular.ttf", 16);
 
     while (!window.shouldClose()) {
-        window.pollEvents();
+        QTRuntime.pollEvents();
 
         window->setRenderColor(Color::black);
         window->clear();
