@@ -140,7 +140,8 @@ void Window::pollEvents() {
         _input.processEvent(event);
         ModLoader::handleEvent(event);
         switch (event.type) {
-        case SDL_EVENT_QUIT: {
+        case SDL_EVENT_QUIT:
+        case SDL_EVENT_WINDOW_CLOSE_REQUESTED: {
             _shouldClose = true;
             break;
         }
