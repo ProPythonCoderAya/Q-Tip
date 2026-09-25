@@ -49,7 +49,9 @@ public:
 
     Input& input();
 
-    void pollEvents();
+    void handleEvent(const SDL_Event& event);
+
+    void beginFrame();
 
     operator SDL_Window*() const;
 
@@ -61,8 +63,10 @@ private:
     float _width = 0;
     float _height = 0;
     bool _shouldClose = false;
+    uint32_t _id = 0;
 
     friend class Texture;
+    friend class QTipRuntime;
 };
 
 QTIP_CODE_END

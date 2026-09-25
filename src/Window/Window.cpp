@@ -11,14 +11,24 @@
 #include <SDL3/SDL.h>
 
 #include "Q-Tip/Mods/ModLoader/ModLoader.h"
+#include "Q-Tip/QTip.h"
 
 QTIP_CODE_BEGIN
-    Window::Window(const char* title, float width, float height) {
-    _window = SDL_CreateWindow(title, static_cast<int>(width), static_cast<int>(height), SDL_WINDOW_RESIZABLE); // resizable default for now
+
+Window::Window(const char* title, float width, float height)
+{
+    _window = SDL_CreateWindow(
+        title,
+        static_cast<int>(width),
+        static_cast<int>(height),
+        SDL_WINDOW_RESIZABLE
+    );
+
     if (!_window) {
         QTipLog(fmt("SDL_CreateWindow failed: %s", SDL_GetError()), LOG_FATAL);
         exit(1);
     }
+
     _width = width;
     _height = height;
 
@@ -27,9 +37,15 @@ QTIP_CODE_BEGIN
     _event = new SDL_Event;
 
     SDL_StartTextInput(_window);
+
+    _id = SDL_GetWindowID(_window);
+
+    QTRuntime.registerWindow(this);
 }
 
-Window::~Window() {
+Window::~Window()
+{
+    QTRuntime.unregisterWindow(this);
     destroy();
 }
 
@@ -39,17 +55,28 @@ Window::Window(Window&& other) noexcept
       _renderer(std::move(other._renderer)),
       _width(other._width),
       _height(other._height),
-      _shouldClose(other._shouldClose) {
+      _shouldClose(other._shouldClose),
+      _input(std::move(other._input)),
+      _id(other._id)
+{
+    QTRuntime.replaceWindow(&other, this);
+
     other._window = nullptr;
+    other._event = nullptr;
     other._width = 0;
     other._height = 0;
     other._shouldClose = true;
 }
 
-Window& Window::operator=(Window&& other) noexcept {
+Window& Window::operator=(Window&& other) noexcept
+{
     if (this == &other) {
         return *this;
     }
+
+    // Remove this object from the runtime before destroying
+    // the resources it currently owns.
+    QTRuntime.unregisterWindow(this);
 
     destroy();
 
@@ -59,8 +86,14 @@ Window& Window::operator=(Window&& other) noexcept {
     _width = other._width;
     _height = other._height;
     _shouldClose = other._shouldClose;
+    _input = std::move(other._input);
+    _id = other._id;
+
+    // Transfer other's runtime registration to this object.
+    QTRuntime.replaceWindow(&other, this);
 
     other._window = nullptr;
+    other._event = nullptr;
     other._width = 0;
     other._height = 0;
     other._shouldClose = true;
@@ -68,7 +101,8 @@ Window& Window::operator=(Window&& other) noexcept {
     return *this;
 }
 
-void Window::destroy() {
+void Window::destroy()
+{
     if (_renderer) {
         _renderer->destroy();
         _renderer.reset();
@@ -87,76 +121,95 @@ void Window::destroy() {
     _window = nullptr;
 }
 
-Renderer* Window::operator->() {
+Renderer* Window::operator->()
+{
     return &_renderer.value();
 }
 
-void Window::show() {
+void Window::show()
+{
     SDL_ShowWindow(_window);
 }
 
-void Window::hide() {
+void Window::hide()
+{
     SDL_HideWindow(_window);
 }
 
-void Window::setTitle(const char* title) {
+void Window::setTitle(const char* title)
+{
     SDL_SetWindowTitle(_window, title);
 }
 
-void Window::setSize(float width, float height) {
-    SDL_SetWindowSize(_window, static_cast<int>(width), static_cast<int>(height));
+void Window::setSize(float width, float height)
+{
+    SDL_SetWindowSize(
+        _window,
+        static_cast<int>(width),
+        static_cast<int>(height)
+    );
+
     _width = width;
     _height = height;
 }
 
-[[nodiscard]] float Window::width() const {
+[[nodiscard]] float Window::width() const
+{
     return _width;
 }
 
-[[nodiscard]] float Window::height() const {
+[[nodiscard]] float Window::height() const
+{
     return _height;
 }
 
-Point Window::size() const {
-    return { _width, _height };
+Point Window::size() const
+{
+    return {_width, _height};
 }
 
-[[nodiscard]] bool Window::shouldClose() const {
+[[nodiscard]] bool Window::shouldClose() const
+{
     return _shouldClose;
 }
 
-Renderer& Window::getRenderer() {
+Renderer& Window::getRenderer()
+{
     return _renderer.value();
 }
 
-Input& Window::input() {
+Input& Window::input()
+{
     return _input;
 }
 
-void Window::pollEvents() {
-    _input.beginFrame();
-    while (SDL_PollEvent(_event)) {
-        auto event = *_event;
-        _input.processEvent(event);
-        ModLoader::handleEvent(event);
-        switch (event.type) {
-        case SDL_EVENT_QUIT:
-        case SDL_EVENT_WINDOW_CLOSE_REQUESTED: {
-            _shouldClose = true;
-            break;
-        }
-        case SDL_EVENT_WINDOW_RESIZED: {
-            _width = static_cast<float>(event.window.data1);
-            _height = static_cast<float>(event.window.data2);
-            break;
-        }
-        default:
-            break;
-        }
+void Window::handleEvent(const SDL_Event& event)
+{
+    _input.processEvent(event);
+
+    switch (event.type) {
+    case SDL_EVENT_QUIT:
+    case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+        _shouldClose = true;
+        break;
+
+    case SDL_EVENT_WINDOW_RESIZED:
+        _width = static_cast<float>(event.window.data1);
+        _height = static_cast<float>(event.window.data2);
+        break;
+
+    default:
+        break;
     }
 }
 
-Window::operator SDL_Window*() const {
+void Window::beginFrame()
+{
+    _input.beginFrame();
+}
+
+Window::operator SDL_Window*() const
+{
     return _window;
 }
 

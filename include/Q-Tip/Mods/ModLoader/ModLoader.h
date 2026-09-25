@@ -48,7 +48,7 @@ private:
 
     static ModLoader instance;
 
-    friend class Window;
+    friend class QTipRuntime;
 };
 
 #include "ModLoader.tpp"

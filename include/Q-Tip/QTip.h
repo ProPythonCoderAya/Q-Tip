@@ -14,13 +14,33 @@
 
 #include <Q-Tip/Window/Window.h>
 
+union SDL_Event;
+
+QTIP_CODE_BEGIN
+
 class QTipRuntime {
 public:
     QTipRuntime();
 
     ~QTipRuntime();
+
+    void pollEvents() const;
+
+private:
+    SDL_Event* _event;
+
+    std::vector<Window*> _windows;
+
+    void registerWindow(Window* window);
+    void unregisterWindow(Window* window);
+
+    void replaceWindow(Window* oldWindow, Window* newWindow);
+
+    friend class Window;
 };
 
-inline QTipRuntime runtime;
+inline QTipRuntime QTRuntime;
+
+QTIP_CODE_END
 
 #endif //QTIP_QTIP_H

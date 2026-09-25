@@ -117,7 +117,7 @@ int main() {
     }
 
     while (!window.shouldClose()) {
-        window.pollEvents();
+        QTRuntime.pollEvents();
 
         // Delta time in seconds.
         float dt = static_cast<float>(clock.elapsedFromLastCall()) / 1000.0f;

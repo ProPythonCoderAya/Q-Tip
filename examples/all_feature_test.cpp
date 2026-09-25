@@ -61,7 +61,7 @@ int main() {
     bool restoredWindow = false;
 
     while (!window.shouldClose()) {
-        window.pollEvents();
+        QTRuntime.pollEvents();
 
         const uint64_t elapsed = clock.now();
         const float t = static_cast<float>(elapsed) / 1000.0f;
