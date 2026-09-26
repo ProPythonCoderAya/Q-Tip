@@ -20,26 +20,27 @@ QTIP_CODE_BEGIN
 
 class QTipRuntime {
 public:
+
+    static void pollEvents();
+
+private:
     QTipRuntime();
 
     ~QTipRuntime();
 
-    void pollEvents() const;
-
-private:
     SDL_Event* _event;
 
     std::vector<Window*> _windows;
 
-    void registerWindow(Window* window);
-    void unregisterWindow(Window* window);
+    static void registerWindow(Window* window);
+    static void unregisterWindow(Window* window);
 
-    void replaceWindow(Window* oldWindow, Window* newWindow);
+    static void replaceWindow(Window* oldWindow, Window* newWindow);
+
+    static QTipRuntime instance;
 
     friend class Window;
 };
-
-inline QTipRuntime QTRuntime;
 
 QTIP_CODE_END
 

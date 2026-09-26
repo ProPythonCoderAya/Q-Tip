@@ -11,7 +11,10 @@
 #include "Q-Tip/Mods/ModLoader/ModLoader.h"
 
 QTIP_CODE_BEGIN
-    QTipRuntime::QTipRuntime() {
+
+QTipRuntime QTipRuntime::instance;
+
+QTipRuntime::QTipRuntime() {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         QTipLog(fmt("SDL_Init failed: %s", SDL_GetError()), LOG_FATAL);
         exit(1);
@@ -33,17 +36,17 @@ QTipRuntime::~QTipRuntime() {
     _event = nullptr;
 }
 
-void QTipRuntime::pollEvents() const {
-    for (Window* window : _windows)
+void QTipRuntime::pollEvents() {
+    for (Window* window : instance._windows)
         window->beginFrame();
 
-    while (SDL_PollEvent(_event)) {
-        const SDL_Event& event = *_event;
+    while (SDL_PollEvent(instance._event)) {
+        const SDL_Event& event = *instance._event;
 
         ModLoader::handleEvent(event);
 
         if (event.type == SDL_EVENT_QUIT) {
-            for (Window* window : _windows)
+            for (Window* window : instance._windows)
                 window->handleEvent(event);
 
             continue;
@@ -99,7 +102,7 @@ void QTipRuntime::pollEvents() const {
         if (windowID == 0)
             continue;
 
-        for (Window* window : _windows) {
+        for (Window* window : instance._windows) {
             if (window->_id == windowID) {
                 window->handleEvent(event);
                 break;
@@ -109,22 +112,22 @@ void QTipRuntime::pollEvents() const {
 }
 
 void QTipRuntime::registerWindow(Window* window) {
-    _windows.push_back(window);
+    instance._windows.push_back(window);
 }
 
 void QTipRuntime::unregisterWindow(Window* window) {
-    std::erase(_windows, window);
+    std::erase(instance._windows, window);
 }
 
 void QTipRuntime::replaceWindow(Window* oldWindow, Window* newWindow) {
-    const auto it = std::ranges::find(_windows, oldWindow);
+    const auto it = std::ranges::find(instance._windows, oldWindow);
 
-    if (it != _windows.end()) {
+    if (it != instance._windows.end()) {
         *it = newWindow;
         return;
     }
 
-    _windows.push_back(newWindow);
+    instance._windows.push_back(newWindow);
 }
 
 QTIP_CODE_END

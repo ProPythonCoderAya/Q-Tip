@@ -22,7 +22,7 @@ Window::Window(const char* title, float width, float height)
 
 Window::~Window()
 {
-    QTRuntime.unregisterWindow(this);
+    QTipRuntime::unregisterWindow(this);
     destroy();
 }
 
@@ -36,7 +36,7 @@ Window::Window(Window&& other) noexcept
       _input(std::move(other._input)),
       _id(other._id)
 {
-    QTRuntime.replaceWindow(&other, this);
+    QTipRuntime::replaceWindow(&other, this);
 
     other._window = nullptr;
     other._event = nullptr;
@@ -53,7 +53,7 @@ Window& Window::operator=(Window&& other) noexcept
 
     // Remove this object from the runtime before destroying
     // the resources it currently owns.
-    QTRuntime.unregisterWindow(this);
+    QTipRuntime::unregisterWindow(this);
 
     destroy();
 
@@ -67,7 +67,7 @@ Window& Window::operator=(Window&& other) noexcept
     _id = other._id;
 
     // Transfer other's runtime registration to this object.
-    QTRuntime.replaceWindow(&other, this);
+    QTipRuntime::replaceWindow(&other, this);
 
     other._window = nullptr;
     other._event = nullptr;
@@ -122,14 +122,14 @@ void Window::open(const char* title, float width, float height) {
 
     _id = SDL_GetWindowID(_window);
 
-    QTRuntime.registerWindow(this);
+    QTipRuntime::registerWindow(this);
 }
 
 void Window::close() {
     if (!_window)
         return;
 
-    QTRuntime.unregisterWindow(this);
+    QTipRuntime::unregisterWindow(this);
 
     destroy();
 
