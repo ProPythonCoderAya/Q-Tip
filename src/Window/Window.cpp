@@ -107,8 +107,8 @@ void Window::open(const char* title, float width, float height) {
     );
 
     if (!_window) {
-        QTipLog(fmt("SDL_CreateWindow failed: %s", SDL_GetError()), LOG_FATAL);
-        exit(1);
+        QTipLog(fmt("SDL_CreateWindow failed: %s", SDL_GetError()), LOG_ERROR);
+        return;
     }
 
     _width = width;
