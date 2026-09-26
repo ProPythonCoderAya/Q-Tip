@@ -9,7 +9,7 @@
 QTIP_CODE_BEGIN
 
 Font::Font(fs::path path, float size) {
-    _font = TTF_OpenFont(path.c_str(), size);
+    _font = TTF_OpenFont(path.string().c_str(), size);
     if (!_font) {
         QTipLog(fmt("TTF_OpenFont failed: %s", SDL_GetError()), LOG_ERROR);
     }
@@ -37,7 +37,7 @@ Font& Font::operator=(const Font& other) {
 
 void Font::copy(const Font& other) {
     TTF_Font* newFont =
-        TTF_OpenFont(other._meta.path.c_str(), other._meta.size);
+        TTF_OpenFont(other._meta.path.string().c_str(), other._meta.size);
 
     if (!newFont) {
         QTipLog(fmt("TTF_OpenFont failed: %s", SDL_GetError()), LOG_ERROR);

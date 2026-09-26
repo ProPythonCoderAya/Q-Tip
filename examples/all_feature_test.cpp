@@ -2,6 +2,8 @@
 
 #include <cmath>
 #include <string>
+#include <cstdlib>
+#include <iostream>
 
 using namespace QTip;
 
@@ -45,6 +47,8 @@ namespace {
 }
 
 int main() {
+    std::cerr << "========== MAIN ==========\n";
+
     Window window("Q-Tip Feature Test - initializing", 800, 600);
 
     Font font("assets/JetBrainsMono-Regular.ttf", 16);

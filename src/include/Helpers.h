@@ -13,6 +13,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
+#include <algorithm>
 
 constexpr char PATH_SEPARATOR = '/';
 const std::string ROOT = "/";
@@ -460,16 +461,16 @@ inline void DrawScrollGradient(SDL_Renderer* renderer, int width, int startX, in
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
 }
 
-inline unsigned long CombineIntx2(int a, int b) {
-    return (static_cast<unsigned long>(b) << 32) | static_cast<unsigned long>(a);
+inline uint64_t CombineIntx2(int a, int b) {
+    return (static_cast<uint64_t>(b) << 32) | static_cast<uint64_t>(a);
 }
 
-inline int DecombineIntx2(unsigned long combined, int select) {
+inline int DecombineIntx2(uint64_t combined, int select) {
     return select ? static_cast<int>(combined >> 32)
                   : static_cast<int>(combined & 0xFFFFFFFF);
 }
 
-inline unsigned long CalculateThumbHeightAndY(int scrollbarY, int trackHeight, float scrollPosition, float scrollRange) {
+inline uint64_t CalculateThumbHeightAndY(int scrollbarY, int trackHeight, float scrollPosition, float scrollRange) {
     int barMinHeight = 20;
 
     int barHeight = max(static_cast<int>(1.0f / scrollRange * static_cast<float>(trackHeight)), barMinHeight);
