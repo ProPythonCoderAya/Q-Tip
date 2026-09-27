@@ -6,6 +6,7 @@
 #include <Q-Tip/Graphics/Texture.h>
 #include <SDL3/SDL.h>
 #include "../include/Helpers.h"
+#include <Q-Tip/Logger/Log.h>
 #include "earcut.hpp"
 #include "Q-Tip/Graphics/RenderTarget.h"
 

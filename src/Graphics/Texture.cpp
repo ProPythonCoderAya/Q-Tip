@@ -3,7 +3,8 @@
 #include <Q-Tip/Graphics/Renderer.h>
 #include <SDL3_image/SDL_image.h>
 
-#include "../include/Helpers.h"
+#include "include/Helpers.h"
+#include <Q-Tip/Logger/Log.h>
 
 QTIP_CODE_BEGIN
 

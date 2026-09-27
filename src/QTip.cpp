@@ -8,6 +8,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 #include "include/Helpers.h"
+#include <Q-Tip/Logger/Log.h>
 #include "Q-Tip/Mods/ModLoader/ModLoader.h"
 
 QTIP_CODE_BEGIN

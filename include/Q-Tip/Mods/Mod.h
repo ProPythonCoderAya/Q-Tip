@@ -22,6 +22,11 @@ public:
     virtual void shutdown() {}
 
     virtual void handleEvent(const SDL_Event& event) {}
+
+protected:
+    void log(const std::string& message, LogLevel level = LOG_INFO) const {
+        QTipLog(fmt("[%s] %s", name(), message.c_str()), level);
+    };
 };
 
 QTIP_CODE_END

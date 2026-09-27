@@ -4,6 +4,7 @@
 
 #include <Q-Tip/Graphics/Font.h>
 #include <include/Helpers.h>
+#include <Q-Tip/Logger/Log.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
 QTIP_CODE_BEGIN

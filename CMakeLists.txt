@@ -46,6 +46,7 @@ add_library(QTip STATIC
         include/Q-Tip/Mods/Mod.h
         src/Mods/ModLoader/ModLoader.cpp
         include/Q-Tip/Mods/ModLoader/ModLoader.h
+        include/Q-Tip/Logger/Log.h
 )
 
 add_library(QTip::QTip ALIAS QTip)

@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "../include/Helpers.h"
+#include <Q-Tip/Logger/Log.h>
 
 #include <SDL3/SDL.h>
 
