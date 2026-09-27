@@ -6,6 +6,7 @@
 #define QTIP_MODINIT_H
 #include <string>
 #include <Q-Tip/Config.h>
+#include <Q-Tip/Logger/Log.h>
 
 union SDL_Event;
 
@@ -37,7 +38,7 @@ public:
 protected:
     void log(const std::string& message, LogLevel level = LOG_INFO) const {
         QTipLog(fmt("[%s] %s", name(), message.c_str()), level);
-    };
+    }
 };
 
 QTIP_CODE_END
