@@ -35,8 +35,8 @@ public:
 
     virtual void handleEvent(const SDL_Event& event) {}
 
-    void log(const std::string& message, LogLevel level = LOG_INFO) const {
-        QTipLog(fmt("[%s] %s", name(), message.c_str()), level);
+    void log(const std::string_view message, const LogLevel level = LOG_INFO) const {
+        QTipLog(fmt("[%s] %s", name().data(), message.data()), level);
     }
 };
 
