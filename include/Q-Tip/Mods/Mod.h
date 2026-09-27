@@ -11,6 +11,17 @@ union SDL_Event;
 
 QTIP_CODE_BEGIN
 
+inline std::string fmt(const char* fmt_str, ...) {
+    char buf[256];  // temporary stack buffer
+
+    va_list args;
+    va_start(args, fmt_str);
+    vsnprintf(buf, sizeof(buf), fmt_str, args);
+    va_end(args);
+
+    return {buf};  // copy into std::string
+}
+
 class Mod {
 public:
     virtual ~Mod() = default;
