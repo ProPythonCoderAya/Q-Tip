@@ -123,10 +123,10 @@ int main() {
         window->setRenderColor(Color::blue);
         window->renderRect({440.0f, 95.0f, 170.0f, 80.0f}, true);
 
-        window->setRenderColor(Color::white);
-        window->renderLine({60.0f, 205.0f, width - 60.0f, 205.0f});
-        window->renderLine({60.0f, 225.0f, width - 60.0f, height - 145.0f});
-        window->renderLine({width - 60.0f, 225.0f, 60.0f, height - 145.0f});
+        window->setRenderColor(Color::green);
+        window->renderThickLine({60.0f, 205.0f, width - 60.0f, 205.0f}, 5 + pulse * 5, true);
+        window->renderThickLine({60.0f, 225.0f, width - 60.0f, height - 145.0f}, 10, true);
+        window->renderThickLine({width - 60.0f, 225.0f, 60.0f, height - 145.0f}, 10, true);
 
         window->setRenderColor(Color::red);
         for (int i = 0; i < static_cast<int>((window.width() - 140.0f) / 9.0f); ++i) {
