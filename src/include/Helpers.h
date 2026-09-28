@@ -249,7 +249,8 @@ inline void DrawThickLineHV(SDL_Renderer* renderer, float x1, float y1, float x2
 
 inline void GetRenderDrawColor(SDL_Renderer* renderer, SDL_FColor &color) {
     Uint8 r, g, b, a;
-    SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+    if (!SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a))
+        std::cerr << "Failed to get render draw color" << std::endl;
     color.r = r;
     color.g = g;
     color.b = b;
