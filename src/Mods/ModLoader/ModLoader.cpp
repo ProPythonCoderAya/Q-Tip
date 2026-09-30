@@ -24,4 +24,10 @@ void ModLoader::handleEvent(const SDL_Event& event) {
     }
 }
 
+void ModLoader::beforePresent(Window& window) {
+    for (const auto& mod : instance.mods) {
+        mod->beforePresent(window);
+    }
+}
+
 QTIP_CODE_END

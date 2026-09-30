@@ -27,6 +27,8 @@ class RenderTarget;
 
 class Texture;
 
+class Window;
+
 class Renderer {
 MODDABLE_ROOT(Renderer)
 
@@ -81,7 +83,9 @@ private:
     ClipState _currentClip;
     std::vector<ClipState> _clipStack;
 
-    friend class RenderTarget;
+    Window* _window = nullptr;
+
+    friend class Window;
 };
 
 QTIP_CODE_END

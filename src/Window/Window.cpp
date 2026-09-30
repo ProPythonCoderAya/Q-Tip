@@ -44,6 +44,9 @@ Window::Window(Window&& other) noexcept
     other._width = 0;
     other._height = 0;
     other._shouldClose = true;
+    other.close();
+
+    _renderer.value()._window = this; // set window to this
 }
 
 Window& Window::operator=(Window&& other) noexcept
@@ -67,6 +70,8 @@ Window& Window::operator=(Window&& other) noexcept
     _input = std::move(other._input);
     _id = other._id;
 
+    _renderer.value()._window = this; // set window to this
+
     // Transfer other's runtime registration to this object.
     QTipRuntime::replaceWindow(&other, this);
 
@@ -75,6 +80,7 @@ Window& Window::operator=(Window&& other) noexcept
     other._width = 0;
     other._height = 0;
     other._shouldClose = true;
+    other.close();
 
     return *this;
 }
@@ -116,6 +122,7 @@ void Window::open(const char* title, float width, float height) {
     _height = height;
 
     _renderer.emplace(_window);
+    _renderer.value()._window = this;
 
     _event = new SDL_Event;
 

@@ -12,7 +12,7 @@
 QTIP_CODE_BEGIN
 
 RenderTarget::RenderTarget(Renderer& renderer, int width, int height) {
-    _texture = SDL_CreateTexture(renderer._renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width, height);
+    _texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width, height);
     if (!_texture)
         return;
 
@@ -25,7 +25,7 @@ RenderTarget::RenderTarget(Renderer& renderer, int width, int height) {
 }
 
 RenderTarget::RenderTarget(Renderer& renderer, Point size) {
-    _texture = SDL_CreateTexture(renderer._renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, size.x, size.y);
+    _texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, size.x, size.y);
     if (!_texture)
         return;
 

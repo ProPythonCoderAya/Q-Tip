@@ -46,9 +46,12 @@ private:
 
     static void handleEvent(const SDL_Event& event);
 
+    static void beforePresent(Window& window);
+
     static ModLoader instance;
 
     friend class QTipRuntime;
+    friend class Renderer;
 };
 
 #include "ModLoader.tpp"

@@ -9,6 +9,8 @@
 #include <Q-Tip/Logger/Log.h>
 #include "earcut.hpp"
 #include "Q-Tip/Graphics/RenderTarget.h"
+#include "Q-Tip/Mods/ModLoader/ModLoader.h"
+#include "Q-Tip/Window/Window.h"
 
 
 namespace mapbox::util {
@@ -44,8 +46,9 @@ Renderer::~Renderer() {
 }
 
 Renderer::Renderer(Renderer&& other) noexcept
-    : _renderer(other._renderer) {
+    : _renderer(other._renderer), _window(other._window) {
     other._renderer = nullptr;
+    other._window = nullptr;
 }
 
 Renderer& Renderer::operator=(Renderer&& other) noexcept {
@@ -56,7 +59,9 @@ Renderer& Renderer::operator=(Renderer&& other) noexcept {
     destroy();
 
     _renderer = other._renderer;
+    _window = other._window;
     other._renderer = nullptr;
+    other._window = nullptr;
 
     return *this;
 }
@@ -65,6 +70,7 @@ void Renderer::destroy() {
     if (!_renderer) return;
     SDL_DestroyRenderer(_renderer);
     _renderer = nullptr;
+    _window = nullptr;
 }
 
 Renderer::operator SDL_Renderer*() const {
@@ -76,6 +82,9 @@ void Renderer::clear() {
 }
 
 void Renderer::present() {
+    if (_window)
+        ModLoader::beforePresent(*_window);
+
     SDL_RenderPresent(_renderer);
 }
 

@@ -12,6 +12,8 @@ union SDL_Event;
 
 QTIP_CODE_BEGIN
 
+class Window;
+
 inline std::string fmt(const char* fmt_str, ...) {
     char buf[256];  // temporary stack buffer
 
@@ -34,6 +36,8 @@ public:
     virtual void shutdown() {}
 
     virtual void handleEvent(const SDL_Event& event) {}
+
+    virtual void beforePresent(Window& window) {}
 
     void log(const std::string_view message, const LogLevel level = LOG_INFO) const {
         QTipLog(fmt("[%s] %s", name().data(), message.data()), level);
