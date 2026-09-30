@@ -12,3 +12,12 @@ repository="./homebrew-q-tip"
 
 commit_message = "Update Q-Tip to {version}"
 push = true
+
+[cmake]
+enabled = true
+
+update_cmake_project_version = true
+cmake_project_name = "QTip"
+
+cmake_lists_directory = "."
+
