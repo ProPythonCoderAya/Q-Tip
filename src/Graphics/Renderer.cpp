@@ -39,6 +39,7 @@ Renderer::Renderer(SDL_Window* window) {
         QTipLog(fmt("SDL_CreateGPURenderer failed: %s", SDL_GetError()), LOG_FATAL);
         exit(1);
     }
+    SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND);
 }
 
 Renderer::~Renderer() {
