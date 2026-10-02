@@ -147,6 +147,10 @@ void Window::close() {
     _shouldClose = true;
 }
 
+void Window::requestClose() {
+    _shouldClose = true;
+}
+
 bool Window::isOpen() const {
     return _window != nullptr;
 }

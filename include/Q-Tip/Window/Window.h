@@ -34,6 +34,8 @@ public:
     void open(const char* title, float width, float height);
     void close();
 
+    void requestClose();
+
     [[nodiscard]] bool isOpen() const;
 
     Renderer* operator->();
