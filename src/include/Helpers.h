@@ -128,7 +128,7 @@ inline void DrawRoundedRect(SDL_Renderer* renderer, int red, int green, int blue
 }
 
 inline int renderText(TTF_Font* font, SDL_Renderer* renderer, const std::string& text, SDL_Color color, float x, float y) {
-    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), 0, color); // blended
+    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), 0, color); // blended
     if (!surface) return 0;
 
     int texW = surface->w;
@@ -140,10 +140,10 @@ inline int renderText(TTF_Font* font, SDL_Renderer* renderer, const std::string&
     if (!texture)
         return 0;
 
-    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 
     SDL_FRect dstRect{ x, y, static_cast<float>(texW), static_cast<float>(texH) };
-    SDL_RenderTexture(renderer, texture, nullptr, &dstRect);
+    SDL_RenderTexture(renderer, texture, nullptr, &dstRect); // I MEAN HERE
     SDL_DestroyTexture(texture);
     return texW;
 }
@@ -157,7 +157,7 @@ inline int renderTextCentered(TTF_Font* font, SDL_Renderer* renderer,
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_DestroySurface(surface);
     if (!texture) { return 0; }
-    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 
     float textW = 0, textH = 0;
     SDL_GetTextureSize(texture, &textW, &textH);
@@ -183,7 +183,7 @@ inline void renderTextCenteredY(TTF_Font* font, SDL_Renderer* renderer,
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_DestroySurface(surface);
     if (!texture) { return; }
-    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 
     float textW = 0, textH = 0;
     SDL_GetTextureSize(texture, &textW, &textH);
