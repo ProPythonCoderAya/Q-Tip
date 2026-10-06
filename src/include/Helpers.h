@@ -128,13 +128,19 @@ inline void DrawRoundedRect(SDL_Renderer* renderer, int red, int green, int blue
 }
 
 inline int renderText(TTF_Font* font, SDL_Renderer* renderer, const std::string& text, SDL_Color color, float x, float y) {
-    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), 0, color);
+    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), 0, color); // blended
     if (!surface) return 0;
 
     int texW = surface->w;
     int texH = surface->h;
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_DestroySurface(surface);
+
+    if (!texture)
+        return 0;
+
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
 
     SDL_FRect dstRect{ x, y, static_cast<float>(texW), static_cast<float>(texH) };
     SDL_RenderTexture(renderer, texture, nullptr, &dstRect);
@@ -149,7 +155,9 @@ inline int renderTextCentered(TTF_Font* font, SDL_Renderer* renderer,
     if (!surface) return 0;
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    if (!texture) { SDL_DestroySurface(surface); return 0; }
+    SDL_DestroySurface(surface);
+    if (!texture) { return 0; }
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
 
     float textW = 0, textH = 0;
     SDL_GetTextureSize(texture, &textW, &textH);
@@ -163,7 +171,6 @@ inline int renderTextCentered(TTF_Font* font, SDL_Renderer* renderer,
     SDL_RenderTexture(renderer, texture, nullptr, &dstRect);
 
     SDL_DestroyTexture(texture);
-    SDL_DestroySurface(surface);
     return static_cast<int>(textW);
 }
 
@@ -174,7 +181,9 @@ inline void renderTextCenteredY(TTF_Font* font, SDL_Renderer* renderer,
     if (!surface) return;
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    if (!texture) { SDL_DestroySurface(surface); return; }
+    SDL_DestroySurface(surface);
+    if (!texture) { return; }
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
 
     float textW = 0, textH = 0;
     SDL_GetTextureSize(texture, &textW, &textH);
@@ -188,7 +197,6 @@ inline void renderTextCenteredY(TTF_Font* font, SDL_Renderer* renderer,
     SDL_RenderTexture(renderer, texture, nullptr, &dstRect);
 
     SDL_DestroyTexture(texture);
-    SDL_DestroySurface(surface);
 }
 
 // Draw a circle centered at (cx, cy) with radius r
