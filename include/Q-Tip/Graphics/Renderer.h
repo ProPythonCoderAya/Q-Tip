@@ -29,6 +29,16 @@ class Texture;
 
 class Window;
 
+enum class RenderBlendMode {
+    None          = 0x00000000u,
+    Blend         = 0x00000001u,
+    BlendPreMulti = 0x00000010u,
+    Add           = 0x00000002u,
+    AddPreMulti   = 0x00000020u,
+    Modulo        = 0x00000004u,
+    Multiplied    = 0x00000008u
+};
+
 class Renderer {
 MODDABLE_ROOT(Renderer)
 
@@ -71,6 +81,9 @@ public:
     void setClip(const Rect& clipRect);
     void resetClip();
 
+    void setBlendMode(RenderBlendMode mode);
+    void resetBlendMode();
+
 private:
     struct ClipState {
         Rect rect{};
@@ -82,6 +95,9 @@ private:
 
     ClipState _currentClip;
     std::vector<ClipState> _clipStack;
+
+    RenderBlendMode _mode = RenderBlendMode::None;
+    std::vector<RenderBlendMode> _blendStack;
 
     Window* _window = nullptr;
 

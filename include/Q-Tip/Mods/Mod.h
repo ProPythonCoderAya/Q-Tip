@@ -39,6 +39,9 @@ public:
 
     virtual void beforePresent(Window& window) {}
 
+    virtual void windowCreated  (Window& window) {}
+    virtual void windowDestroyed(Window& window) {}
+
     void log(const std::string_view message, const LogLevel level = LOG_INFO) const {
         QTipLog(fmt("[%s] %s", name().data(), message.data()), level);
     }

@@ -30,4 +30,16 @@ void ModLoader::beforePresent(Window& window) {
     }
 }
 
+void ModLoader::windowCreated(Window& window) {
+    for (const auto& mod : instance.mods) {
+        mod->windowCreated(window);
+    }
+}
+
+void ModLoader::windowDestroyed(Window& window) {
+    for (const auto& mod : instance.mods) {
+        mod->windowDestroyed(window);
+    }
+}
+
 QTIP_CODE_END

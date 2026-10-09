@@ -53,55 +53,7 @@ void QTipRuntime::pollEvents() {
             continue;
         }
 
-        SDL_WindowID windowID = 0;
-
-        switch (event.type) {
-        case SDL_EVENT_WINDOW_SHOWN:
-        case SDL_EVENT_WINDOW_HIDDEN:
-        case SDL_EVENT_WINDOW_EXPOSED:
-        case SDL_EVENT_WINDOW_MOVED:
-        case SDL_EVENT_WINDOW_RESIZED:
-        case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
-        case SDL_EVENT_WINDOW_MINIMIZED:
-        case SDL_EVENT_WINDOW_MAXIMIZED:
-        case SDL_EVENT_WINDOW_RESTORED:
-        case SDL_EVENT_WINDOW_MOUSE_ENTER:
-        case SDL_EVENT_WINDOW_MOUSE_LEAVE:
-        case SDL_EVENT_WINDOW_FOCUS_GAINED:
-        case SDL_EVENT_WINDOW_FOCUS_LOST:
-        case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
-        case SDL_EVENT_WINDOW_DISPLAY_CHANGED:
-            windowID = event.window.windowID;
-            break;
-
-        case SDL_EVENT_KEY_DOWN:
-        case SDL_EVENT_KEY_UP:
-            windowID = event.key.windowID;
-            break;
-
-        case SDL_EVENT_TEXT_INPUT:
-            windowID = event.text.windowID;
-            break;
-
-        case SDL_EVENT_MOUSE_MOTION:
-            windowID = event.motion.windowID;
-            break;
-
-        case SDL_EVENT_MOUSE_BUTTON_DOWN:
-        case SDL_EVENT_MOUSE_BUTTON_UP:
-            windowID = event.button.windowID;
-            break;
-
-        case SDL_EVENT_MOUSE_WHEEL:
-            windowID = event.wheel.windowID;
-            break;
-
-        default:
-            break;
-        }
-
-        if (windowID == 0)
-            continue;
+        SDL_WindowID windowID = SDL_GetWindowID(SDL_GetWindowFromEvent(&event));
 
         for (Window* window : instance._windows) {
             if (window->_id == windowID) {

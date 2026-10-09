@@ -48,9 +48,13 @@ private:
 
     static void beforePresent(Window& window);
 
+    static void windowCreated  (Window& window);
+    static void windowDestroyed(Window& window);
+
     static ModLoader instance;
 
     friend class QTipRuntime;
+    friend class Window;
     friend class Renderer;
 };
 

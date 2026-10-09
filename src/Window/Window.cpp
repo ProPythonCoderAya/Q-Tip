@@ -19,10 +19,12 @@ QTIP_CODE_BEGIN
 Window::Window(const char* title, float width, float height)
 {
     open(title, width, height);
+    ModLoader::windowCreated(*this);
 }
 
 Window::~Window()
 {
+    ModLoader::windowDestroyed(*this);
     QTipRuntime::unregisterWindow(this);
     destroy();
 }

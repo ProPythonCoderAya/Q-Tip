@@ -15,13 +15,13 @@
 
 namespace mapbox::util {
 
-    // Registrera Index 0 (X)
+    // Register Index 0 (X)
     template <>
     struct nth<0, QTip::Point> {
         static double get(const QTip::Point& p) { return p.x; };
     };
 
-    // Registrera Index 1 (Y)
+    // Register Index 1 (Y)
     template <>
     struct nth<1, QTip::Point> {
         static double get(const QTip::Point& p) { return p.y; };
@@ -39,7 +39,6 @@ Renderer::Renderer(SDL_Window* window) {
         QTipLog(fmt("SDL_CreateGPURenderer failed: %s", SDL_GetError()), LOG_FATAL);
         exit(1);
     }
-    SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND);
 }
 
 Renderer::~Renderer() {
@@ -253,6 +252,21 @@ void Renderer::resetClip() {
     } else {
         SDL_SetRenderClipRect(_renderer, nullptr);
     }
+}
+
+void Renderer::setBlendMode(RenderBlendMode mode) {
+    _blendStack.push_back(_mode);
+    _mode = mode;
+    SDL_SetRenderDrawBlendMode(_renderer, static_cast<SDL_BlendMode>(mode));
+}
+
+void Renderer::resetBlendMode() {
+    if (_blendStack.empty()) {
+        return;
+    }
+
+    SDL_SetRenderDrawBlendMode(_renderer, static_cast<SDL_BlendMode>(_blendStack.back()));
+    _blendStack.pop_back();
 }
 
 QTIP_CODE_END
