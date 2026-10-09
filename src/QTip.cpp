@@ -64,6 +64,10 @@ void QTipRuntime::pollEvents() {
     }
 }
 
+std::vector<Window*> QTipRuntime::windows() {
+    return instance._windows;
+}
+
 void QTipRuntime::registerWindow(Window* window) {
     instance._windows.push_back(window);
 }

@@ -23,6 +23,8 @@ public:
 
     static void pollEvents();
 
+    static std::vector<Window*> windows();
+
 private:
     QTipRuntime();
 
